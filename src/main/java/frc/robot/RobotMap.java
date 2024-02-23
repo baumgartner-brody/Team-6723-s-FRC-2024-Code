@@ -58,12 +58,16 @@ public class RobotMap {
     // 2/11/2024 CanSparkMax type & declaration
     public static CANSparkMax sparkMax;  // ID 5
     public static CANSparkMax sparkMax2; // ID 6
+    public static CANSparkMax sparkMax3; // ID 7
 
     public static SparkPIDController pidController;
     public static SparkPIDController pidController2;
+    public static SparkPIDController pidController3;
+
 
     public static RelativeEncoder encoder;
     public static RelativeEncoder encoder2;
+    public static RelativeEncoder encoder3;
 
     /*
      * public static WPI_TalonSRX outdexerMotor;
@@ -120,10 +124,12 @@ public class RobotMap {
         //sparkMax = new CANSparkMax//(TOD(o) - calibrate motor with talon tuner, MotorType.kBrushless);
         sparkMax = new CANSparkMax(5, MotorType.kBrushless);
         sparkMax2 = new CANSparkMax(6, MotorType.kBrushless);
+        sparkMax3 = new CANSparkMax (7, MotorType.kBrushless);
 
         // 2/16/2024 encoder
         encoder = sparkMax.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
         encoder2 = sparkMax2.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+        encoder3 = sparkMax3.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
         
         //https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Encoder%20Feedback%20Device/src/main/java/frc/robot/Robot.java
         /**
@@ -133,7 +139,8 @@ public class RobotMap {
          */
         pidController = sparkMax.getPIDController();
         pidController2 = sparkMax2.getPIDController();
-    
+        pidController3 = sparkMax3.getPIDController();
+
         /**
          * The PID Controller can be configured to use the analog sensor as its feedback
          * device with the method SetFeedbackDevice() and passing the PID Controller
@@ -141,20 +148,22 @@ public class RobotMap {
          */
         pidController.setFeedbackDevice(encoder);
         pidController2.setFeedbackDevice(encoder2);
+        pidController3.setFeedbackDevice(encoder3);
 
-        leftmotor1.configFactoryDefault();
-        leftmotor2.configFactoryDefault();
-        rightmotor1.configFactoryDefault();
-        rightmotor2.configFactoryDefault();
+      //  leftmotor1.configFactoryDefault();
+      //  leftmotor2.configFactoryDefault();
+      //  rightmotor1.configFactoryDefault();
+      //  rightmotor2.configFactoryDefault();
 
-        leftmotor2.follow(leftmotor1);
-        rightmotor2.follow(rightmotor1);
+      //  leftmotor2.follow(leftmotor1);
+      //  rightmotor2.follow(rightmotor1);
 
-        leftmotor1.setInverted(false);
+        leftmotor1.setInverted(true);
         rightmotor1.setInverted(true);
+        leftmotor2.setInverted(true);
 
-        leftmotor2.setInverted(InvertType.FollowMaster);
-        rightmotor2.setInverted(InvertType.FollowMaster); 
+     //   leftmotor2.setInverted(InvertType.FollowMaster);
+       // rightmotor2.setInverted(InvertType.FollowMaster); 
 
         liftmotor.setInverted(true);
         // left = new MotorControllerGroup(leftmotor1, leftmotor2);
@@ -162,7 +171,7 @@ public class RobotMap {
         // rightmotor2.follow(rightmotor1);
         // leftmotor2.follow(leftmotor1);
 
-        RobotDrive = new MecanumDrive(leftmotor1, leftmotor2, rightmotor1, rightmotor2);
+        RobotDrive = new MecanumDrive(leftmotor1, leftmotor2, rightmotor1, rightmotor2 );
         RobotDrive.setSafetyEnabled(false);
 
         lsTop2 = new DigitalInput(2);

@@ -37,18 +37,16 @@ public class DRIVEMecanumDrive extends CommandBase{
 
         //calls repeatedly when command is scheduled to run
         s_drivetrain.doMecanumDrive(Robot.oi.getXboxController());
-       
     }
 
-    public void run (double x, double y, double z){
+    public void run(double x, double y, double z){
         s_drivetrain.doMecanumDrive(x,y,z);
-
     }
         
     public void run(double leftspeed, double rightspeed) {
-    RobotMap.left.set(leftspeed);
-    RobotMap.right.set(-rightspeed);
-}
+        RobotMap.left.set(leftspeed);
+        RobotMap.right.set(-rightspeed);
+    }
      
     @Override 
     public boolean isFinished() {

@@ -18,13 +18,13 @@ import frc.robot.subsystems.*;
 public class OI {
     public XboxController xbox;
     //XboxController xboxController = new XboxController (0); // 2/19/2024 Do NOT bind two devices to port 0. This causes problems
-    private final Joystick joystick;
+    private final Joystick stick;
 
     public final JoystickButton button1; // 2/19/2024 Could be any button
 
     public OI() {
         xbox = new XboxController (0);
-        joystick = new Joystick(1); // 2/19/2024 
+        stick = new Joystick(1); // 2/19/2024 
 
         button1 = new JoystickButton(stick, 1);
     }

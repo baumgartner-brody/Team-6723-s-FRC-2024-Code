@@ -33,13 +33,17 @@ public class DriveFowardAuto extends CommandBase {
         SmartDashboard.putNumber("Timer.get(): ", timer.get());
         SmartDashboard.putNumber("timeout: ", timeout);
         
+        Robot.m_robotContainer.c_mecanumDrive.run(xSpeed, ySpeed, zSpeed);
+        
+        /*
         if (timer.get() < timeout) {
             //Robot.m_robotContainer.c_mecanumDrive.run(xSpeed, ySpeed, zSpeed);
             Robot.robotmap.leftmotor1.set(-ySpeed);
             Robot.robotmap.leftmotor2.set(-ySpeed);
             Robot.robotmap.rightmotor1.set(ySpeed);
             Robot.robotmap.rightmotor2.set(ySpeed);
-        }
+        } */
+        //Robot.m_robotContainer.c_mecanumDrive.run(0, 0, 0);
     }
     
     @Override

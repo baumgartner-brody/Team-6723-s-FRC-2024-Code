@@ -3,24 +3,24 @@ import frc.robot.commands.Wait;
 import frc.robot.subsystems.drivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-
-
 public class DriveFowardacc extends SequentialCommandGroup {
     
-    
-    public DriveFowardacc(drivetrain c_mecanumDrive ) {
+    public DriveFowardacc() {
         //DriveFowardAuto driveFowardAuto = new DriveFowardAuto(.8, 0, 0, 5);
+        /*
         addCommands(
             new DriveFowardAuto(.8,0,0,3),
             new DriveFowardAuto(0, 0, .5, 2),
             new DriveFowardAuto(.8, 0, 0, 2)
             // will add code for using the neo to drop a note into the amp
         );
+        */
+        addCommands(
+            new DriveFowardAuto(0.3, 0, 0, 2),
+            new DriveFowardAuto(-0.3, 0, 0, 2)
+        );
             
 
-    }
-
-    private void addCommands(DriveFowardAuto driveFowardAuto, DriveFowardAuto driveFowardAuto2, DriveFowardAuto driveFowardAuto3) {
     }
 }
 

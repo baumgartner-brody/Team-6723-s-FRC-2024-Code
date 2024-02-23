@@ -39,6 +39,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final drivetrain s_drivetrain = new drivetrain();
   public static final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
+  public static final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
   private final grabber s_grabber = new grabber();
   private final grabber2 s_grabber2 = new grabber2();
   private final ArmDrop ArmDrop2 = new ArmDrop ();
@@ -48,21 +49,16 @@ public class RobotContainer {
   
   public final DRIVEMecanumDrive c_mecanumDrive = new DRIVEMecanumDrive(s_drivetrain);
   //private final DriveFowardAuto c_DriveForwardAuto = new DriveFowardAuto(0.3, 0, 0, 2); // 2/17/2024 Auto that drives straight for 2 seconds (incorrect way to instantiate - see below)
-  private final DriveFowardacc c_TestAuto2Auto = new DriveFowardacc(s_drivetrain);
  
   //commands
   
-  SendableChooser<Command> autoChooser = new SendableChooser<>();
-  
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  public SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
      
-    configureBindings();
+    //configureBindings();
 
     //autoChooser.setDefaultOption("Nothing", c_BlankAuto);
     //autoChooser.addOption("Score", c_ScoreAuto);
@@ -71,9 +67,13 @@ public class RobotContainer {
    // autoChooser.addOption("Taxi + cube", c_CubeTaxiAuto);
    // autoChooser.addOption("Climb", c_ClimbAuto);
    // autoChooser.addOption("Dance", c_DanceAuto);
-    autoChooser.addOption("DriveFoward", new DriveFowardAuto(0, 0.3, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
+    autoChooser.setDefaultOption("DriveForward", new DriveFowardAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
+    autoChooser.addOption("DriveForward then back", new DriveFowardacc());
+
+    SmartDashboard.putData(autoChooser);
     
-    SmartDashboard.putData("Auto:",  autoChooser);
+    //SmartDashboard.putData("Auto:",  autoChooser);
+    System.out.println("in robotcontainer ctor"); // guof
   
     //autoChooser.addOption("Test", c_TestAuto);
   }
@@ -90,16 +90,20 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    //new Trigger(m_exampleSubsystem::exampleCondition)
+        //.onTrue(new ExampleCommand(m_exampleSubsystem));
 
     // 2/19/2024 Uncomment this to use the joystick
     //Robot.oi.button1.onTrue(new SparkMaxCommand(-0.1));
+    
+
   }
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+   // s_sparkMax.AButton().whileTrue(s_sparkMax.SparkMaxCommand());
+
+
     /*  
     Robot.oi.button1.onTrue(c_LifterForward);
     Robot.oi.button1.onFalse(c_LifterStop);

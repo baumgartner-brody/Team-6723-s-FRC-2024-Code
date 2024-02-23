@@ -147,11 +147,21 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putBoolean("Pressure Switch: ", RobotMap.c.getPressureSwitchValue());
     SmartDashboard.putNumber("Compressor: ", 0);
     oi.otherOI();
-    
-    if (oi.getXboxController().getAButton()) {
-      RobotContainer.s_sparkMax.run(-0.1); // run the motor at half speed
-    } else {
-      RobotContainer.s_sparkMax.run(0); // stop the motor
+
+    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton()) {
+      RobotContainer.s_sparkMax.stop();
+    } else if (oi.getXboxController().getAButton()) {
+      RobotContainer.s_sparkMax.run(-0.1);
+    } else if (oi.getXboxController().getBButton()) {
+      RobotContainer.s_sparkMax.run(0.1);
+    }
+
+    if (!oi.getXboxController().getXButton() && !oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.stop();
+    } else if (oi.getXboxController().getXButton()) {
+      RobotContainer.s_sparkMax3.run(0.1); // run the motor at half speed
+    } else if (oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.run(-0.1);
     }
 
     //SmartDashboard.putString("han_solenoid", RobotMap.han_solonoid.get());

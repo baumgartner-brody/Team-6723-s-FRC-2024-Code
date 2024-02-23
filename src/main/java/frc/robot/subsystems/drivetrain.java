@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.RobotMap;
@@ -17,25 +18,25 @@ public class drivetrain extends SubsystemBase {
 
     private final Timer timer;
 
-    private final const double X_DRIFT_THRESHOLD = 0.15;
-    private final const double Y_DRIFT_THRESHOLD = 0.15;
-    private final const double Z_DRIFT_THRESHOLD = 0.15;
+    private double X_DRIFT_THRESHOLD = 0.15;
+    private double Y_DRIFT_THRESHOLD = 0.15;
+    private double Z_DRIFT_THRESHOLD = 0.15;
 
-    private final const double X_OFFSET_TIMEOUT = 0.5;
-    private final const double Y_OFFSET_TIMEOUT = 0.5;
-    private final const double Z_OFFSET_TIMEOUT = 0.5;
+    private double X_OFFSET_TIMEOUT = 0.5;
+    private double Y_OFFSET_TIMEOUT = 0.5;
+    private double Z_OFFSET_TIMEOUT = 0.5;
 
-    private final double STORED_X_TIME = 0.0;
-    private final double STORED_Y_TIME = 0.0;
-    private final double STORED_Z_TIME = 0.0;
+    private double STORED_X_TIME = 0.0;
+    private double STORED_Y_TIME = 0.0;
+    private double STORED_Z_TIME = 0.0;
 
-    private final double STORED_X_READING = 0.0;
-    private final double STORED_Y_READING = 0.0;
-    private final double STORED_Z_READING = 0.0;
+    private double STORED_X_READING = 0.0;
+    private double STORED_Y_READING = 0.0;
+    private double STORED_Z_READING = 0.0;
 
-    private final double X_OFFSET = 0.0;
-    private final double Y_OFFSET = 0.0;
-    private final double Z_OFFSET = 0.0;
+    private double X_OFFSET = 0.0;
+    private double Y_OFFSET = 0.0;
+    private double Z_OFFSET = 0.0;
 
     public drivetrain() {
         //kungstructor
@@ -57,25 +58,30 @@ public class drivetrain extends SubsystemBase {
         // 2/17/2024 - based xbox axes off Mr. Louis' vex robots, however this order may not be correct for FRC and may need further adjusting
         //RobotMap.RobotDrive.driveCartesian(xbox.getRightX(), xbox.getLeftY(), xbox.getLeftX());
 
+        SmartDashboard.putNumber("timer.get() ", timer.get());
+        SmartDashboard.putNumber("stored x value ", STORED_X_READING);
+        SmartDashboard.putNumber("stored x time ", STORED_X_TIME);
+        SmartDashboard.putNumber("x ", xbox.getLeftX());
+
         // X offset
-        if (xbox.getRightX() == STORED_X_READING) {
-            if (Math.abs(xbox.getRightX()) > X_DRIFT_THRESHOLD) {
+        if (xbox.getLeftX() == STORED_X_READING) {
+            if (Math.abs(xbox.getLeftX()) < X_DRIFT_THRESHOLD) {
                 if (timer.get() > STORED_X_TIME + X_OFFSET_TIMEOUT) {
-                    X_OFFSET = xbox.getRightX();
-                    STORED_X_READING = xbox.getRightX();
+                    X_OFFSET = xbox.getLeftX();
+                    STORED_X_READING = xbox.getLeftX();
                     STORED_X_TIME = timer.get();
                 }
             } else {
                 X_OFFSET = 0.0; // Reset offset when driver is driving the robot faster than the threshold
             }
         } else {
-            STORED_X_READING = xbox.getRightX();
+            STORED_X_READING = xbox.getLeftX();
             STORED_X_TIME = timer.get();
         }
 
         // Y offset
-        if (xbox.getLeftY() == STORED_Y_READING) {
-            if (Math.abs(xbox.getLeftY()) > Y_DRIFT_THRESHOLD) {
+        if (xbox.getLeftY() != 0 && xbox.getLeftY() == STORED_Y_READING) {
+            if (Math.abs(xbox.getLeftY()) < Y_DRIFT_THRESHOLD) {
                 if (timer.get() > STORED_Y_TIME + Y_OFFSET_TIMEOUT) {
                     Y_OFFSET = xbox.getLeftY();
                     STORED_Y_READING = xbox.getLeftY();
@@ -85,16 +91,16 @@ public class drivetrain extends SubsystemBase {
                 Y_OFFSET = 0.0; // Reset offset when driver is driving the robot faster than the threshold
             }
         } else {
-            STORED_Y_READING = xbox.getRightX();
+            STORED_Y_READING = xbox.getLeftY();
             STORED_Y_TIME = timer.get();
         }
 
         // Z offset
-        if (xbox.getLeftX() == STORED_Z_READING) {
-            if (Math.abs(xbox.getLeftX()) > Z_DRIFT_THRESHOLD) {
+        if (xbox.getRightX() != 0 && xbox.getRightX() == STORED_Z_READING) {
+            if (Math.abs(xbox.getRightX()) < Z_DRIFT_THRESHOLD) {
                 if (timer.get() > STORED_Z_TIME + Z_OFFSET_TIMEOUT) {
-                    Z_OFFSET = xbox.getLeftX();
-                    STORED_Z_READING = xbox.getLeftX();
+                    Z_OFFSET = xbox.getRightX();
+                    STORED_Z_READING = xbox.getRightX();
                     STORED_Z_TIME = timer.get();
                 }
             } else {
@@ -105,9 +111,13 @@ public class drivetrain extends SubsystemBase {
             STORED_Z_TIME = timer.get();
         }
 
-        RobotMap.RobotDrive.driveCartesian(xbox.getRightX() - X_OFFSET, xbox.getLeftY() - Y_OFFSET, xbox.getLeftX() - Z_OFFSET);
+        SmartDashboard.putNumber("X_OFFSET: ", X_OFFSET);
+        SmartDashboard.putNumber("Y_OFFSET: ", Y_OFFSET);
+        SmartDashboard.putNumber("Z_OFFSET: ", Z_OFFSET);
+
+        RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
         //RobotMap.RobotDrive.driveCartesian(0, xbox.getLeftY(), 0);
-        // the middle value is the turn
+        // the middle value is the turn (no its not)
 
         // first value makes all 4 motors go the same way
     }
