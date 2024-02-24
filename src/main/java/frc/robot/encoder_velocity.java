@@ -11,6 +11,7 @@ public class encoder_velocity implements Runnable {
     // Resets the gyro and the encoders to zero rotations/ degrees
     RobotMap.encoder.setPosition(0);
     RobotMap.encoder2.setPosition(0);
+    RobotMap.encoder3.setPosition(0);
   }
 
   public void run() {
@@ -40,6 +41,10 @@ public class encoder_velocity implements Runnable {
       double velocity2 = RobotMap.encoder2.getVelocity();
       double position2 = RobotMap.encoder2.getPosition() % 42;
       double revs2 = RobotMap.encoder2.getPosition() / 42;
+
+      double velocity3 = RobotMap.encoder3.getVelocity();
+      double position3 = RobotMap.encoder3.getPosition() % 42;
+      double revs3 = RobotMap.encoder3.getPosition() / 42;
 
       /*
       double right_velocity = RobotMap.RrearMotor.getSelectedSensorVelocity(0);
@@ -72,6 +77,10 @@ public class encoder_velocity implements Runnable {
       SmartDashboard.putNumber("Encoder2 velocity: ", velocity2);
       SmartDashboard.putNumber("Encoder2 position: ", position2);
       SmartDashboard.putNumber("Encoder2 revolutions: ", revs2);
+
+      SmartDashboard.putNumber("Encoder3 velocity: ", velocity3);
+      SmartDashboard.putNumber("Encoder3 position: ", position3);
+      SmartDashboard.putNumber("Encoder3 revolutions: ", revs3);
     }
   }
 }

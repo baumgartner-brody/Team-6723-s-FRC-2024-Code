@@ -19,6 +19,10 @@ public class SparkMaxCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        //s_sparkmax.run(_speed);
+    }
+
+    public void run(double speed) {
         s_sparkmax.run(_speed);
     }
 
@@ -26,6 +30,11 @@ public class SparkMaxCommand extends CommandBase {
     @Override
     public boolean isFinished(){
         return true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        s_sparkmax.stop();
     }
 
 }

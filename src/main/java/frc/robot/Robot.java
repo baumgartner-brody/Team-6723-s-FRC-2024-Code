@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   private Command c_mecanumDriveCommand;
   private Command p_lifterStopCommand;
 
-  private Command c_sparkMaxCommand;
+  private SparkMaxCommand c_sparkMaxCommand;
 
   public static RobotContainer m_robotContainer;
 
@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     
     RobotMap._gyro.calibrate();
 
-    SmartDashboard.putNumber("Arm speed", -0.02);
+    SmartDashboard.putNumber("Arm speed", -0.015);
   }
 
   /**
@@ -146,23 +146,34 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Compressor: ", 0);
     oi.otherOI();
 
-    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton()) {
-      RobotContainer.s_sparkMax.stop();
+    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton() && 
+        !oi.getXboxController().getXButton()) {
+      c_sparkMaxCommand.end(false);
+      //RobotContainer.s_sparkMax.stop();
     } else if (oi.getXboxController().getAButton()) {
-      RobotContainer.s_sparkMax.run(-0.1);
+      //RobotContainer.s_sparkMax.run(-0.1);
+      c_sparkMaxCommand.run(-0.1);
     } else if (oi.getXboxController().getBButton()) {
       RobotContainer.s_sparkMax.run(0.1);
+    } else if (oi.getXboxController().getXButton()) {
+      //RobotContainer.s_sparkMax.run(SmartDashboard.getNumber("Arm speed", -0.015));
+      c_sparkMaxCommand.run(SmartDashboard.getNumber("Arm speed", -0.015));
+    } 
+
+    if (!oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.stop();
+    } else if (oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.run(-1);
     }
 
+    /*
     if (!oi.getXboxController().getXButton() && !oi.getXboxController().getYButton()) {
-      //RobotContainer.s_sparkMax3.stop();
-      RobotContainer.s_sparkMax.stop();
+      RobotContainer.s_sparkMax3.stop();
     } else if (oi.getXboxController().getXButton()) {
-      //RobotContainer.s_sparkMax3.run(0.1); // run the motor at half speed
-      RobotContainer.s_sparkMax.run(SmartDashboard.getNumber("Arm speed", -0.02));
+      RobotContainer.s_sparkMax3.run(0.1); // run the motor at half speed
     } else if (oi.getXboxController().getYButton()) {
-      //RobotContainer.s_sparkMax3.run(-0.1);
-    }
+      RobotContainer.s_sparkMax3.run(-0.1);
+    } */
 
     //SmartDashboard.putString("han_solenoid", RobotMap.han_solonoid.get());
   }
