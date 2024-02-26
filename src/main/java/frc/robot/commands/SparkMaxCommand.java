@@ -9,23 +9,26 @@ public class SparkMaxCommand extends CommandBase {
 
     //subsystem that the command runs on
     private final sparkMaxSubsystem s_sparkmax; // 2/11/2024 - The spark max subsystem
-    private double _speed;
     
-    public SparkMaxCommand (sparkMaxSubsystem sparkMax, double speed) {
+    public SparkMaxCommand (sparkMaxSubsystem sparkMax) {
         s_sparkmax = sparkMax;
-        _speed = speed;
         addRequirements(s_sparkmax);
     }
 
     @Override
     public void initialize() {
-        s_sparkmax.run(_speed);
+        //s_sparkmax.run(speed);
     }
 
     // 2/11/2024 - isFinished always returns true for while held commands
     @Override
     public boolean isFinished(){
         return true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        s_sparkmax.stop();
     }
 
 }

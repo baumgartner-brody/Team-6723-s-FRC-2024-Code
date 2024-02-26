@@ -42,9 +42,9 @@ public class Robot extends TimedRobot {
   private Command c_mecanumDriveCommand;
   private Command p_lifterStopCommand;
 
-  private Command c_sparkMaxCommand;
-
   public static RobotContainer m_robotContainer;
+
+  private SparkMaxCommand c_sparkMaxCommand = new SparkMaxCommand(m_robotContainer.s_sparkMax);
 
   /* Simple thread to plot sensor velocity and such */
 	encoder_velocity encoder_data;
@@ -60,13 +60,11 @@ public class Robot extends TimedRobot {
     robotmap = new RobotMap();
     oi = new OI();
     m_robotContainer = new RobotContainer();
-    CameraServer.startAutomaticCapture();
-   
-
+    CameraServer.startAutomaticCapture(0);
     
     RobotMap._gyro.calibrate();
-    
 
+    SmartDashboard.putNumber("Arm speed", -0.015);
   }
 
   /**
@@ -148,21 +146,45 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Compressor: ", 0);
     oi.otherOI();
 
-    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton()) {
-      RobotContainer.s_sparkMax.stop();
+    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton() && 
+        !oi.getXboxController().getXButton()) {
+      c_sparkMaxCommand.end(false);
+      //RobotContainer.s_sparkMax.stop();
     } else if (oi.getXboxController().getAButton()) {
-      RobotContainer.s_sparkMax.run(-0.1);
+      //RobotContainer.s_sparkMax.run(-0.1);
+      c_sparkMaxCommand.run(-0.1);
     } else if (oi.getXboxController().getBButton()) {
       RobotContainer.s_sparkMax.run(0.1);
+    } else if (oi.getXboxController().getXButton()) {
+      //RobotContainer.s_sparkMax.run(SmartDashboard.getNumber("Arm speed", -0.015));
+      //c_sparkMaxCommand.run(SmartDashboard.getNumber("Arm speed", -0.015));
+
+      double avg_encoder_velocity = (robotmap.encoder.getVelocity() + robotmap.encoder2.getVelocity()) / 2;
+      double speed = avg_encoder_velocity / 42;
+
+      SmartDashboard.putNumber("speed: ", speed);
+
+      double e = Math.max(-speed, -0.01);
+
+      SmartDashboard.putNumber("e: ", e);
+
+      c_sparkMaxCommand.run(e);  
     }
 
+    if (!oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.stop();
+    } else if (oi.getXboxController().getYButton()) {
+      RobotContainer.s_sparkMax3.run(-1);
+    }
+
+    /*
     if (!oi.getXboxController().getXButton() && !oi.getXboxController().getYButton()) {
       RobotContainer.s_sparkMax3.stop();
     } else if (oi.getXboxController().getXButton()) {
       RobotContainer.s_sparkMax3.run(0.1); // run the motor at half speed
     } else if (oi.getXboxController().getYButton()) {
       RobotContainer.s_sparkMax3.run(-0.1);
-    }
+    } */
 
     //SmartDashboard.putString("han_solenoid", RobotMap.han_solonoid.get());
   }
