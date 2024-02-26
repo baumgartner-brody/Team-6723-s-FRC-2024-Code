@@ -135,10 +135,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-### Gradle ###
-.gradle
-/build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -176,3 +172,9 @@ bin/
 build/
 gradle/
 .gradle/
+.editorconfig
+*.gradle
+gradlew
+networktables.json
+simgui*.json
+WPILib-License.md
