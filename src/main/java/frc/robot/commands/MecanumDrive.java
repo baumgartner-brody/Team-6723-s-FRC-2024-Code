@@ -7,6 +7,7 @@ import frc.robot.subsystems.*;
 
 public class MecanumDrive extends CommandBase{
 
+    /* A reference to the drivetrain subsystem */
     private final drivetrain s_drivetrain;
 
     public MecanumDrive(drivetrain subsystem) {
@@ -16,15 +17,16 @@ public class MecanumDrive extends CommandBase{
 
     @Override
     public void initialize() {
-        //ooga booga
+        /* Nothing to initialize */
     }
 
+    /* In execute(), we let the subsystem handle the xbox controller */
     @Override
     public void execute() {
-        //calls repeatedly when command is scheduled to run
         s_drivetrain.doMecanumDrive(Robot.oi.getXboxController());
     }
 
+    /* Run the drivetrain at a parameter x, y, and z speed */
     public void run(double x, double y, double z){
         s_drivetrain.doMecanumDrive(x, y, z);
     }

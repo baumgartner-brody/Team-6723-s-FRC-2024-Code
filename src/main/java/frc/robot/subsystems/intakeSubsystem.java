@@ -11,10 +11,10 @@ public class intakeSubsystem extends SubsystemBase {
 
     // run the sparkMax at a set speed
     public void run(double speed) {
-        RobotMap.sparkMax3.set(speed);
+        RobotMap.sparkMax7.set(speed);
     }
 
     public void stop() {
-        RobotMap.sparkMax3.set(0);
+        RobotMap.sparkMax7.set(0);
     }
 }

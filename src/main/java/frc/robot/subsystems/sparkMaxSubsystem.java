@@ -11,12 +11,12 @@ public class sparkMaxSubsystem extends SubsystemBase {
 
     // run the sparkMax at a set speed
     public void run(double speed) {
-        RobotMap.sparkMax.set(speed);
-        RobotMap.sparkMax2.set(-speed);
+        RobotMap.sparkMax5.set(speed);
+        RobotMap.sparkMax6.set(-speed);
     }
 
     public void stop() {
-        RobotMap.sparkMax.set(0);
-        RobotMap.sparkMax2.set(0);
+        RobotMap.sparkMax5.set(0);
+        RobotMap.sparkMax6.set(0);
     }
 }

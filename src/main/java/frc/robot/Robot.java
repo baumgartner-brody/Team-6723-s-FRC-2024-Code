@@ -11,22 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick; 
-//import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
-//import frc.robot.commands.autonomous;
-//import frc.robot.robot_container.RobotContainer;
+
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.cameraserver.CameraServer;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -42,8 +36,6 @@ public class Robot extends TimedRobot {
 
   public static RobotContainer m_robotContainer;
 
-  private SparkMaxCommand c_sparkMaxCommand = new SparkMaxCommand(m_robotContainer.s_sparkMax);
-
   /* Simple thread to plot sensor velocity and such */
 	encoder_velocity encoder_data;
 
@@ -56,12 +48,15 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotmap = new RobotMap();
-    oi = new OI();
     m_robotContainer = new RobotContainer();
-    CameraServer.startAutomaticCapture(0);
-    
-    RobotMap._gyro.calibrate();
 
+    /* As a rule of thumb instantiate OI after RobotMap and RobotContainer due to its tendency to have dependencies in those */
+    oi = new OI();
+
+    /* Start a camera on RIO USB port 0 */
+    CameraServer.startAutomaticCapture(0);
+
+    /* Allow the arm speed to be controlled when the user presses B */
     SmartDashboard.putNumber("Arm speed", -0.015);
   }
 
@@ -83,9 +78,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-    RobotMap.c.disable();
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
@@ -98,10 +91,10 @@ public class Robot extends TimedRobot {
     encoder_data = new encoder_velocity(this);
     new Thread(encoder_data).start();
 
-    RobotMap.c.enableDigital();
+    /* Get the selected command from SmartDashboard's autoChooser */
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
+    /* Start the command. This is why they need to be instantiated the way they are in RobotContainer. They need to be treated as new objects. */
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -120,9 +113,6 @@ public class Robot extends TimedRobot {
     encoder_data = new encoder_velocity(this);
     new Thread(encoder_data).start();
 
-    RobotMap.c.enableDigital();
-    //RobotMap._gyro.calibrate(); //probably move this for comp
-
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -137,57 +127,39 @@ public class Robot extends TimedRobot {
   /* This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    c_mecanumDriveCommand.schedule();
+    c_mecanumDriveCommand.schedule(); // Ensure the mecanumDriveCommand is always running during teleOp
 
-    SmartDashboard.putNumber("Compressor PSI: ", RobotMap.c.getPressure());
-    //SmartDashboard.putBoolean("Pressure Switch: ", RobotMap.c.getPressureSwitchValue());
-    SmartDashboard.putNumber("Compressor: ", 0);
     oi.otherOI();
 
+    /* The old, ah-hoc way to use xbox buttons. We are trying to port them over to configureBindings() in RobotContainer */
+    /*
     if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton() && 
         !oi.getXboxController().getXButton()) {
-      c_sparkMaxCommand.end(false);
-      //RobotContainer.s_sparkMax.stop();
+      m_robotContainer.s_sparkMax.stop();
     } else if (oi.getXboxController().getAButton()) {
-      //RobotContainer.s_sparkMax.run(-0.1);
-      c_sparkMaxCommand.run(-0.1);
-    } else if (oi.getXboxController().getBButton()) {
-      RobotContainer.s_sparkMax.run(0.1);
+      m_robotContainer.s_sparkMax.run(-0.1);
     } else if (oi.getXboxController().getXButton()) {
-      //RobotContainer.s_sparkMax.run(SmartDashboard.getNumber("Arm speed", -0.015));
-      //c_sparkMaxCommand.run(SmartDashboard.getNumber("Arm speed", -0.015));
 
-      double avg_encoder_velocity = (robotmap.encoder.getVelocity() + robotmap.encoder2.getVelocity()) / 2;
+      double avg_encoder_velocity = (robotmap.encoder5.getVelocity() + robotmap.encoder6.getVelocity()) / 2;
       double speed = avg_encoder_velocity / 42;
 
       SmartDashboard.putNumber("speed: ", speed);
 
-      double e = Math.max(-speed, -0.01);
+      double speed_to_run_arm = Math.max(-speed, -0.015);
 
-      SmartDashboard.putNumber("e: ", e);
+      SmartDashboard.putNumber("speed_to_run_arm: ", speed_to_run_arm);
 
-      c_sparkMaxCommand.run(e);  
+      m_robotContainer.s_sparkMax.run(speed_to_run_arm);
     }
 
     if (!oi.getXboxController().getYButton()) {
-      RobotContainer.s_sparkMax3.stop();
+      m_robotContainer.s_sparkMax3.stop();
     } else if (oi.getXboxController().getYButton()) {
-      RobotContainer.s_sparkMax3.run(-1);
+      m_robotContainer.s_sparkMax3.run(-1);
     }
-
-    /*
-    if (!oi.getXboxController().getXButton() && !oi.getXboxController().getYButton()) {
-      RobotContainer.s_sparkMax3.stop();
-    } else if (oi.getXboxController().getXButton()) {
-      RobotContainer.s_sparkMax3.run(0.1); // run the motor at half speed
-    } else if (oi.getXboxController().getYButton()) {
-      RobotContainer.s_sparkMax3.run(-0.1);
-    } */
-
-    //SmartDashboard.putString("han_solenoid", RobotMap.han_solonoid.get());
+    */
   }
    
-// i can code pretty good
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
@@ -206,5 +178,4 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {}
 
- 
 }

@@ -24,14 +24,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static final drivetrain s_drivetrain = new drivetrain();
-  public static final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
-  public static final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
+  public final drivetrain s_drivetrain = new drivetrain();
+  public final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
+  public final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
 
   //commands
   
   public final MecanumDrive c_mecanumDrive = new MecanumDrive(s_drivetrain);
-  //private final DriveFowardAuto c_DriveForwardAuto = new DriveFowardAuto(0.3, 0, 0, 2); // 2/17/2024 Auto that drives straight for 2 seconds (incorrect way to instantiate - see below)
  
   //commands
   
@@ -41,24 +40,17 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
      
-    //configureBindings();
+    configureBindings();
 
-    //autoChooser.setDefaultOption("Nothing", c_BlankAuto);
-    //autoChooser.addOption("Score", c_ScoreAuto);
-    //autoChooser.addOption("Score + Climb", c_ScoreClimbAuto);
-   // autoChooser.addOption("Taxi", c_TaxiAuto);
-   // autoChooser.addOption("Taxi + cube", c_CubeTaxiAuto);
-   // autoChooser.addOption("Climb", c_ClimbAuto);
-   // autoChooser.addOption("Dance", c_DanceAuto);
-    autoChooser.setDefaultOption("DriveForward", new DriveFowardAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
-    autoChooser.addOption("DriveForward then back", new DriveFowardacc());
+    /* Add options to the autoChooser */
+    /* The option added via setDefaultOption() will be selected by default, and returned unless another option has been selected by the driver. */
+    /* Options added via addOption() must be manually selected to be run. Commands must be instantiated this way to ensure they return new objects and */
+    /* not references to objects that are old and no longer valid. */
+    autoChooser.setDefaultOption("DriveForward", new DriveAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
+    autoChooser.addOption("DriveForward then back", new AutoCommandGroup());
 
+    /* Put the autoChooser on the SmartDashboard so it can be interacted with and seen */
     SmartDashboard.putData(autoChooser);
-    
-    //SmartDashboard.putData("Auto:",  autoChooser);
-    System.out.println("in robotcontainer ctor"); // guof
-  
-    //autoChooser.addOption("Test", c_TestAuto);
   }
 
   /**
@@ -70,35 +62,18 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    //new Trigger(m_exampleSubsystem::exampleCondition)
-        //.onTrue(new ExampleCommand(m_exampleSubsystem));
+    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
+    Robot.oi.X.onTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
 
-    // 2/19/2024 Uncomment this to use the joystick
-    //Robot.oi.button1.onTrue(new SparkMaxCommand(-0.1));
+    /* This is an attempt to use configureBindings with xbox buttons. */
+    /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */
+    /* Right now, our B button mechanism to lower the arm is wonky, unreliable, and requires the driver to repeatly press the button as the arm jerks downwards. */
+    /* We would like to make a command that uses encoders or timing to lower the arm in a smooth and controlled manner. */
+    /* This requires gradually lowering a speed of about -0.02 to -0.01, as -0.02 suspends the arm, but -0.01 allows it to gradually lower. */
 
-  }
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-   // s_sparkMax.AButton().whileTrue(s_sparkMax.SparkMaxCommand());
-
-
-    /*  
-    Robot.oi.button1.onTrue(c_LifterForward);
-    Robot.oi.button1.onFalse(c_LifterStop);
-    Robot.oi.button2.onTrue(c_ToggleGrabber);
-    //Robot.oi.button2.whenPressed(c_ToggleGrabber2);
-    Robot.oi.button3.onTrue(ArmDrop);
-    //Robot.oi.button4.whenPressed(c_ToggleGrabber);
-    //Robot.oi.button4.onTrue(c_LifterStop);
-    //Robot.oi.button3.onFalse(c_LifterStop);
-    // Robot.oi.button11.onTrue(c_LifterStop);
-    Robot.oi.button5.onTrue(c_LifterStand);
-    Robot.oi.button6.onTrue(c_LifterHeavyStand);
-    
+    /* This command should be set up so the driver taps it and the code does the rest, so via toggleOnTrue() */
   }
 
   /**
@@ -107,7 +82,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
     return autoChooser.getSelected();
   }
 

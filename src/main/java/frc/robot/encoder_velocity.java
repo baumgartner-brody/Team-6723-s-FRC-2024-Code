@@ -8,9 +8,10 @@ public class encoder_velocity implements Runnable {
   public encoder_velocity(Robot robot) {
     this.robot = robot;
 
-    // Resets the gyro and the encoders to zero rotations/ degrees
-    RobotMap.encoder.setPosition(0);
-    RobotMap.encoder2.setPosition(0);
+    // Resets the encoders to zero rotations
+    RobotMap.encoder5.setPosition(0);
+    RobotMap.encoder6.setPosition(0);
+    RobotMap.encoder7.setPosition(0);
   }
 
   public void run() {
@@ -26,52 +27,31 @@ public class encoder_velocity implements Runnable {
       } catch (Exception e) {
         /* Do Nothing */
       }
-
-      /* Grab the latest signal update from our 1ms frame update 
-       * Calculates and logs all the encoder data. Encoders are measured in encoder units and work 
-       * because only a small arc of the actual output shaft is magnetic. Using 4096 encoder units per
-       * rotation, one rotation equates to about 23 inches, you may adjust this to get a cleaner number,
-       * but be wary all auto routines are measured by desired encoder revolutions! 
-      */
-      double velocity = RobotMap.encoder.getVelocity();
-      double position = RobotMap.encoder.getPosition() % 42;
-      double revs = RobotMap.encoder.getPosition() / 42;
-
-      double velocity2 = RobotMap.encoder2.getVelocity();
-      double position2 = RobotMap.encoder2.getPosition() % 42;
-      double revs2 = RobotMap.encoder2.getPosition() / 42;
-
-      /*
-      double right_velocity = RobotMap.RrearMotor.getSelectedSensorVelocity(0);
-      double right_position = RobotMap.RrearMotor.getSelectedSensorPosition(0) % 4096;
-      double right_rotations = RobotMap.RrearMotor.getSelectedSensorPosition(0) / 4096;
-      //Robot.offset = Math.abs(left_rotations) - Math.abs(right_rotations); 
-      //Robot.offset_speed = Robot.offset / 10;
       
-      double shooter_vel = RobotMap.Shooter.getSelectedSensorVelocity(0);
-      double shooter_pos = RobotMap.Shooter.getSelectedSensorPosition(0) % 4096;
-      double shooter_rots = RobotMap.Shooter.getSelectedSensorPosition(0) / 4096; 
-      
-      SmartDashboard.putNumber("L_vel", left_velocity);
-      SmartDashboard.putNumber("L_pos", left_position);
-      SmartDashboard.putNumber("L_rotations", left_rotations);
-      SmartDashboard.putNumber("R_vel", right_velocity);
-      SmartDashboard.putNumber("R_pos", right_position);
-      SmartDashboard.putNumber("R_rotations", right_rotations);
-      SmartDashboard.putNumber("shooter_velocity", shooter_vel);
-      SmartDashboard.putNumber("shooter_position", shooter_pos);
-      SmartDashboard.putNumber("shooter_rotations", shooter_rots); 
-      SmartDashboard.putNumber("offset", Robot.offset);
-      SmartDashboard.putNumber("offset_speed", Robot.offset_speed);
-      SmartDashboard.putNumber("Gyro Angle", RobotMap.Mutton.getAngle());
-      */
-      SmartDashboard.putNumber("Encoder velocity: ", velocity);
-      SmartDashboard.putNumber("Encoder position: ", position);
-      SmartDashboard.putNumber("Encoder revolutions: ", revs);
+      /* With brushless motors, we use 42 encoder units per revolution, hence the position and revs calucations */
+      double sparkMax5_vel = RobotMap.encoder5.getVelocity();
+      double sparkMax5_pos = RobotMap.encoder5.getPosition() % 42;
+      double sparkMax5_rev = RobotMap.encoder5.getPosition() / 42;
 
-      SmartDashboard.putNumber("Encoder2 velocity: ", velocity2);
-      SmartDashboard.putNumber("Encoder2 position: ", position2);
-      SmartDashboard.putNumber("Encoder2 revolutions: ", revs2);
+      double sparkMax6_vel = RobotMap.encoder6.getVelocity();
+      double sparkMax6_pos = RobotMap.encoder6.getPosition() % 42;
+      double sparkMax6_rev = RobotMap.encoder6.getPosition() / 42;
+
+      double sparkMax7_vel = RobotMap.encoder7.getVelocity();
+      double sparkMax7_pos = RobotMap.encoder7.getPosition() % 42;
+      double sparkMax7_rev = RobotMap.encoder7.getPosition() / 42;
+
+      SmartDashboard.putNumber("SparkMax 5 vel: ", sparkMax5_vel);
+      SmartDashboard.putNumber("SparkMax 5 pos: ", sparkMax5_pos);
+      SmartDashboard.putNumber("SparkMax 5 rev: ", sparkMax5_rev);
+
+      SmartDashboard.putNumber("SparkMax 6 vel: ", sparkMax6_vel);
+      SmartDashboard.putNumber("SparkMax 6 pos: ", sparkMax6_pos);
+      SmartDashboard.putNumber("SparkMax 6 rev: ", sparkMax6_rev);
+
+      SmartDashboard.putNumber("SparkMax 7 vel: ", sparkMax7_vel);
+      SmartDashboard.putNumber("SparkMax 7 pos: ", sparkMax7_pos);
+      SmartDashboard.putNumber("SparkMax 7 rev: ", sparkMax7_rev);
     }
   }
 }

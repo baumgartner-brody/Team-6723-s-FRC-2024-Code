@@ -13,50 +13,45 @@ public class drivetrain extends SubsystemBase {
 
     private final Timer timer;
 
+    /* The speed that offsets will be calculated below and reset when the driver exceeds */
     private double X_DRIFT_THRESHOLD = 0.15;
     private double Y_DRIFT_THRESHOLD = 0.15;
     private double Z_DRIFT_THRESHOLD = 0.15;
 
+    /* The amount of time (in seconds) for a controller to read the same number for the reading to be considered an offset */
     private double X_OFFSET_TIMEOUT = 0.5;
     private double Y_OFFSET_TIMEOUT = 0.5;
     private double Z_OFFSET_TIMEOUT = 0.5;
 
+    /* The time that STORED_READING was updated (the lower end of a time window) */
     private double STORED_X_TIME = 0.0;
     private double STORED_Y_TIME = 0.0;
     private double STORED_Z_TIME = 0.0;
 
+    /* Controller readings per axis to determine if the controller has read the same value for too long */
     private double STORED_X_READING = 0.0;
     private double STORED_Y_READING = 0.0;
     private double STORED_Z_READING = 0.0;
 
+    /* Offsets for correcting drift */
     private double X_OFFSET = 0.0;
     private double Y_OFFSET = 0.0;
     private double Z_OFFSET = 0.0;
 
+    /* drivetrain constructor initializes the timer */
     public drivetrain() {
-        //kungstructor
         timer = new Timer();
         timer.reset();
         timer.start();
     }
 
-    public void init() {
-
-    }
-
-    public void resetOffsets() {
-        X_OFFSET = Y_OFFSET = Z_OFFSET = 0.0;
-    }
-
     public void doMecanumDrive(XboxController xbox) {
-
-        // 2/17/2024 - based xbox axes off Mr. Louis' vex robots, however this order may not be correct for FRC and may need further adjusting
-        //RobotMap.RobotDrive.driveCartesian(xbox.getRightX(), xbox.getLeftY(), xbox.getLeftX());
-
-        SmartDashboard.putNumber("timer.get() ", timer.get());
-        SmartDashboard.putNumber("stored x value ", STORED_X_READING);
-        SmartDashboard.putNumber("stored x time ", STORED_X_TIME);
-        SmartDashboard.putNumber("x ", xbox.getLeftX());
+        /** The offsets are calculated based on the following logic: (X used in explanation, but this applies to all 3 axes)
+         *  If the controller reports the same reading for more than X_OFFSET_TIMEOUT seconds, the reading is considered to be an offset
+         *  If the driver exceeds X_DRIFT_THRESHOLD, X_OFFSET is reset. Offsets only apply at speeds below this threshold. This is to prevent the controller
+         *  from misbehaving when the driver is moving around at significant speeds.
+         *  STORED_X_TIME and STORED_X_READING are bookkeeping variables to ensure the offset calculation window is dynamic and updated correctly.
+         */
 
         // X offset
         if (xbox.getLeftX() == STORED_X_READING) {
@@ -106,17 +101,18 @@ public class drivetrain extends SubsystemBase {
             STORED_Z_TIME = timer.get();
         }
 
+        /* Put offsets on the SmartDashboard for debugging */
         SmartDashboard.putNumber("X_OFFSET: ", X_OFFSET);
         SmartDashboard.putNumber("Y_OFFSET: ", Y_OFFSET);
         SmartDashboard.putNumber("Z_OFFSET: ", Z_OFFSET);
 
         RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
-        //RobotMap.RobotDrive.driveCartesian(0, xbox.getLeftY(), 0);
-        // the middle value is the turn (no its not)
-
-        // first value makes all 4 motors go the same way
     }
 
+    /* Drive the robot with a parameter x, y, and z speed */
+    /* x - Back and forth speed (maps to xbox.getLeftY()) */
+    /* y - Scuttle speed (maps to xbox.getLeftX()) */
+    /* z - Rotation (maps to xbox.getRightX()) */
     public void doMecanumDrive (double x, double y, double z) {
         RobotMap.RobotDrive.driveCartesian(x, y, z);
     }
