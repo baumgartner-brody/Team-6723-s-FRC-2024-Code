@@ -1,14 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.RobotMap;
-import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -120,21 +115,6 @@ public class drivetrain extends SubsystemBase {
         // the middle value is the turn (no its not)
 
         // first value makes all 4 motors go the same way
-    }
-
-    // 2/19/2024 - mecanumDrive with flight stick
-    public void mecanumDriveJoystick(Joystick stick) {
-        RobotMap.RobotDrive.driveCartesian(stick.getX(), stick.getY(), stick.getZ());
-    }
-
-    public void run(double leftspeed, double rightspeed) {
-        RobotMap.left.set(leftspeed);
-        RobotMap.right.set(-rightspeed);
-    }
-
-    public void stop() {
-        RobotMap.left.set(0);
-        RobotMap.right.set(0);
     }
 
     public void doMecanumDrive (double x, double y, double z) {

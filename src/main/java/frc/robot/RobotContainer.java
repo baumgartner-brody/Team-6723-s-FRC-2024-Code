@@ -4,22 +4,13 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 import frc.robot.commands.*;
-import frc.robot.commands.Autos.DriveFowardAuto;
-import frc.robot.commands.Autos.DriveFowardacc;
+import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +30,7 @@ public class RobotContainer {
 
   //commands
   
-  public final DRIVEMecanumDrive c_mecanumDrive = new DRIVEMecanumDrive(s_drivetrain);
+  public final MecanumDrive c_mecanumDrive = new MecanumDrive(s_drivetrain);
   //private final DriveFowardAuto c_DriveForwardAuto = new DriveFowardAuto(0.3, 0, 0, 2); // 2/17/2024 Auto that drives straight for 2 seconds (incorrect way to instantiate - see below)
  
   //commands
@@ -87,7 +78,6 @@ public class RobotContainer {
 
     // 2/19/2024 Uncomment this to use the joystick
     //Robot.oi.button1.onTrue(new SparkMaxCommand(-0.1));
-    
 
   }
 
