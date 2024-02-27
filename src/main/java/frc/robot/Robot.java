@@ -37,10 +37,8 @@ public class Robot extends TimedRobot {
   public static RobotMap robotmap;
   public static OI oi;
 
-
   private Command m_autonomousCommand;
   private Command c_mecanumDriveCommand;
-  private Command p_lifterStopCommand;
 
   public static RobotContainer m_robotContainer;
 

@@ -12,14 +12,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import edu.wpi.first.wpilibj.smartdashboard.*;
-
 
 import frc.robot.commands.*;
 import frc.robot.commands.Autos.DriveFowardAuto;
 import frc.robot.commands.Autos.DriveFowardacc;
 import frc.robot.subsystems.*;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,14 +33,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final drivetrain s_drivetrain = new drivetrain();
   public static final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
   public static final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
-  private final grabber s_grabber = new grabber();
-  private final grabber2 s_grabber2 = new grabber2();
-  private final ArmDrop ArmDrop2 = new ArmDrop ();
-  private final gyro s_gyro = new gyro();
 
   //commands
   
