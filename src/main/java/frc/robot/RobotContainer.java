@@ -63,9 +63,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
-    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
-    Robot.oi.X.onTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
+    Robot.oi.A.whileTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.B.whileTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
+    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
 
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */
