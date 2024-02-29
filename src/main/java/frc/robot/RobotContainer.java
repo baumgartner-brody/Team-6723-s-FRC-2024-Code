@@ -67,6 +67,9 @@ public class RobotContainer {
     Robot.oi.B.whileTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
 
+    /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
+    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax));
+
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */
     /* Right now, our B button mechanism to lower the arm is wonky, unreliable, and requires the driver to repeatly press the button as the arm jerks downwards. */

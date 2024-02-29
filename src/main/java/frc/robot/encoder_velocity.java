@@ -15,13 +15,9 @@ public class encoder_velocity implements Runnable {
   }
 
   public void run() {
-    /**
-     * Speed up network tables, this is a test project so eat up all of
-     * the network possible for the purpose of this test.
-     */
-
     while (true) {
-      /* Yield for a Ms or so - this is not meant to be accurate */
+      
+      /* Yield for a millisecond  */
       try {
         Thread.sleep(1);
       } catch (Exception e) {

@@ -11,6 +11,7 @@ public class OI {
     public Trigger A;
     public Trigger B;
     public Trigger X;
+    public Trigger Y; /* Adding Y button as a test button for the new arm lowering command */
 
     public OI() {
         xbox = new XboxController(0);
@@ -20,6 +21,7 @@ public class OI {
         A = new JoystickButton(xbox, XboxController.Button.kA.value);
         B = new JoystickButton(xbox, XboxController.Button.kB.value);
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
+        Y = new JoystickButton(xbox, XboxController.Button.kY.value);
     }
 
     public XboxController getXboxController() {
