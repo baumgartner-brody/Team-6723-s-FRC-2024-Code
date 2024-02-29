@@ -37,9 +37,6 @@ public class LowerArm extends CommandBase {
     private final RelativeEncoder _encoder5;
     private final RelativeEncoder _encoder6;
 
-    /* For this command, we'll use encoders to calculate speed */
-    private double _speed;
-
     private boolean _isFinished = false;
 
     /* You may adjust the values from here down. */
