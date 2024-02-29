@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.lang.Math; // abs
@@ -56,14 +56,14 @@ public class LowerArm extends CommandBase {
     /* We can additionally add a maximum amount of time we want this command to take, but as of right now the timer does nothing */
     private final double FLAT_ENOUGH_POSITION = 50;
     
-    public LowerArm(sparkMaxSubsystem sparkMax) {
+    public LowerArm(sparkMaxSubsystem sparkMax, RelativeEncoder encoder5, RelativeEncoder encoder6) {
         s_sparkmax = sparkMax;
         addRequirements(s_sparkmax);
 
         /* Establish references to the encoders on motors 5 & 6. */
         /* I was not able to test if it is possible to establish references in this way, so this might require tweaking */
-        _encoder5 = Robot.RobotMap.encoder5;
-        _encoder6 = Robot.RobotMap.encoder6;
+        _encoder5 = encoder5;
+        _encoder6 = encoder6;
 
         /* Throw an exception if the programmer provided invalid values for the above constants */
         if (SPEED_MAX < SPEED_MIN || ENCODER_VELOCITY_MAX <= ENCODER_VELOCITY_MIN || FLAT_ENOUGH_POSITION < 0) {
