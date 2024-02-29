@@ -97,6 +97,13 @@ public class LowerArm extends CommandBase {
         double denom = (Math.abs(ENCODER_VELOCITY_MAX) - Math.abs(ENCODER_VELOCITY_MIN));
         double normalized_encoder_velocity = Math.abs(average_encoder_velocity - Math.abs(ENCODER_VELOCITY_MIN)) / denom;
 
+        /* Failsafes for cases where the actual encoder velocity is outside [ENCODER_VELOCITY_MIN, ENCODER_VELOCITY_MAX] */
+        if (average_encoder_velocity < ENCODER_VELOCITY_MIN) {
+            normalized_encoder_velocity = 0.0;
+        } else if (average_encoder_velocity > ENCODER_VELOCITY_MAX) {
+            normalized_encoder_velocity = 1.0;
+        }
+
         /* Ensure this number stays between [0, 1] */
         SmartDashboard.putNumber("Normalized encoder velocity: ", normalized_encoder_velocity);
 
