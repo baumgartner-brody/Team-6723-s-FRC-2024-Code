@@ -6,9 +6,9 @@ To make changes to this repo, you should be able to run the following commands:
 
 `git fetch` - This will pull all commits from the remote repo. One of the previous steps should have made you sign in to github using either a GUI or the `git config` terminal interface.
 
-`git branch -m mynewbranch master` - This will create a new branch called "mynewbranch" and automatically check it out for you.
+`git branch -m mynewbranch master` - This will create a new branch called "mynewbranch" (from master) and automatically check it out for you.
 
-Alternatively, you can run `git checkout mynewbranch` to create / checkout a new branch.
+Alternatively, you can run `git checkout mynewbranch` to create / checkout a branch. This will allow you to make commits to an existing branch in addition to creating a new branch.
 
 `git pull` - If you're working on a branch that someone else is working on, run this to stay up to date with their commits.
 
