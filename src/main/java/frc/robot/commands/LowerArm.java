@@ -67,7 +67,7 @@ public class LowerArm extends CommandBase {
 
         /* Throw an exception if the programmer provided invalid values for the above constants */
         if (SPEED_MAX < SPEED_MIN || ENCODER_VELOCITY_MAX <= ENCODER_VELOCITY_MIN || FLAT_ENOUGH_POSITION < 0) {
-            throw Exception("Invalid constants specified in LowerArm");
+            throw new Exception("Invalid constants specified in LowerArm");
         }
     }
 
