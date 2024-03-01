@@ -68,7 +68,7 @@ public class RobotContainer {
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
-    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax, Robot.RobotMap.encoder5, Robot.RobotMap.encoder6));
+    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax, Robot.robotmap.encoder5, Robot.robotmap.encoder6));
 
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */

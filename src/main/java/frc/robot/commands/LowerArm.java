@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.lang.Math; // abs
 
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 /* The idea behind this command is that the driver should be able to press a button */
@@ -67,7 +68,7 @@ public class LowerArm extends CommandBase {
 
         /* Throw an exception if the programmer provided invalid values for the above constants */
         if (SPEED_MAX < SPEED_MIN || ENCODER_VELOCITY_MAX <= ENCODER_VELOCITY_MIN || FLAT_ENOUGH_POSITION < 0) {
-            throw new Exception("Invalid constants specified in LowerArm");
+            System.out.println("Invalid constants specified in LowerArm");
         }
     }
 
@@ -112,7 +113,7 @@ public class LowerArm extends CommandBase {
         SmartDashboard.putNumber("Abs(speed to run the arm motors): ", speed_to_apply);
 
         /* Finally flip the calculated speed and run the motor */
-        s_sparkMax.run(-speed_to_apply);
+        s_sparkmax.run(-speed_to_apply);
 
         /* Add conditions here for determining if the arm is lowered */
         /* Right now the command will stop when it deems the arm "flat enough" */
