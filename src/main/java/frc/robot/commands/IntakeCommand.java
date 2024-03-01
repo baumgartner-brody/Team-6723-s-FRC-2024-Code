@@ -29,7 +29,7 @@ public class IntakeCommand extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return true;
+        return false;
     }
 
     /* For safety reasons, it's a good idea to override end() in all your commands and call the stop() method on its required subsystem */

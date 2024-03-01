@@ -21,6 +21,7 @@ public class SparkMaxCommand extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("called sparkmaxcommand");
         s_sparkmax.run(_speed);
     }
 
@@ -33,7 +34,7 @@ public class SparkMaxCommand extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return true;
+        return false;
     }
 
     @Override

@@ -2,16 +2,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class OI {
     private XboxController xbox;
 
-    public Trigger A;
-    public Trigger B;
-    public Trigger X;
-    public Trigger Y; /* Adding Y button as a test button for the new arm lowering command */
+    public JoystickButton A;
+    public JoystickButton B;
+    public JoystickButton X;
+    public JoystickButton Y; /* Adding Y button as a test button for the new arm lowering command */
+    public JoystickButton RightBumper;
 
     public OI() {
         xbox = new XboxController(0);
@@ -22,6 +23,7 @@ public class OI {
         B = new JoystickButton(xbox, XboxController.Button.kB.value);
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
         Y = new JoystickButton(xbox, XboxController.Button.kY.value);
+        RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
     }
 
     public XboxController getXboxController() {

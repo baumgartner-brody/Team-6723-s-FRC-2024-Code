@@ -40,7 +40,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
      
-    configureBindings();
+  //  configureBindings();
 
     /* Add options to the autoChooser */
     /* The option added via setDefaultOption() will be selected by default, and returned unless another option has been selected by the driver. */
@@ -62,13 +62,17 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    Robot.oi.A.whileTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
-    Robot.oi.B.whileTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
-    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -1.0)); // Run the intake at full speed while X is held
+  public void configureBindings() {
+    System.out.println("called config bindings");
+    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.A.onFalse(new SparkMaxCommandStop(s_sparkMax));
+    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
+    Robot.oi.B.onFalse(new SparkMaxCommand(s_sparkMax, -0.015));
+    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -0.5)); // Run the intake at full speed while X is held
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
     Robot.oi.Y.onTrue(new LowerArm(s_sparkMax, RobotMap.encoder5, RobotMap.encoder6));
+    Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
 
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */

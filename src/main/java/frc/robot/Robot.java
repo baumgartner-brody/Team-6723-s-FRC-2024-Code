@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
 
     /* As a rule of thumb instantiate OI after RobotMap and RobotContainer due to its tendency to have dependencies in those */
     oi = new OI();
+    m_robotContainer.configureBindings();
 
     /* Start a camera on RIO USB port 0 */
     CameraServer.startAutomaticCapture(0);

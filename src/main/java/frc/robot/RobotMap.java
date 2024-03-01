@@ -17,7 +17,6 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
 
 public class RobotMap {
-
     public static MecanumDrive RobotDrive;
 
     public static WPI_TalonSRX rightmotor1;
