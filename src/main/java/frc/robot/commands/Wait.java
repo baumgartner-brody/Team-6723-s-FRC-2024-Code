@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 /* A command that does nothing for a specified number of seconds */
-public class Wait extends CommandBase{
+public class Wait extends Command {
 
     private final Timer timer = new Timer();
     private double _time;

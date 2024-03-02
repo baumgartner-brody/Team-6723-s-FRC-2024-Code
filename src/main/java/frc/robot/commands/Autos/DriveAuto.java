@@ -1,11 +1,11 @@
 package frc.robot.commands.Autos;
 
 import frc.robot.*;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 
 /* DriveAuto is an autonomous command that drives the robot with a specified x, y, z speed for a specified amount of time. */
-public class DriveAuto extends CommandBase {
+public class DriveAuto extends Command {
     private final Timer timer = new Timer();
     private double xSpeed;
     private double ySpeed;

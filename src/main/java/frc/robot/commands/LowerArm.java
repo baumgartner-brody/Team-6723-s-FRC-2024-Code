@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,7 +32,7 @@ import frc.robot.subsystems.*;
 /* Since the logic to throw the exception uses "constants", it will report a Dead Code warning */
 /* We can use @SuppressWarnings to ignore certain warnings in java. */
 @SuppressWarnings("unused") 
-public class LowerArm extends CommandBase {
+public class LowerArm extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
     private final sparkMaxSubsystem s_sparkmax;

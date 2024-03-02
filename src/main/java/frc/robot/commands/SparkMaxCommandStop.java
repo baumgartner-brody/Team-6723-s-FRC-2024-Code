@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.*;
 
-public class SparkMaxCommandStop extends CommandBase {
+public class SparkMaxCommandStop extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
     private final sparkMaxSubsystem s_sparkmax;

@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.subsystems.*;
 /* The IntakeCommand runs the intake Spark Max at a specified speed */
-public class IntakeCommand extends CommandBase {
+public class IntakeCommand extends Command {
 
     /* A reference to the subsystem that controls the intake Spark Max */
     private final intakeSubsystem s_sparkmax3;

@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.*;
 
-public class SparkMaxCommand extends CommandBase {
+public class SparkMaxCommand extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
     private final sparkMaxSubsystem s_sparkmax;

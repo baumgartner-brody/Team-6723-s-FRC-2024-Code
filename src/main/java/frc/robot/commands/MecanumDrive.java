@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.*;
 import frc.robot.subsystems.*;
 
-public class MecanumDrive extends CommandBase{
+public class MecanumDrive extends Command {
 
     /* A reference to the drivetrain subsystem */
     private final drivetrain s_drivetrain;
