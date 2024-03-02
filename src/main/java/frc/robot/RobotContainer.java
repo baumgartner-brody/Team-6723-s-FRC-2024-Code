@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // The robot's subsystems are defined here...
   public final drivetrain s_drivetrain = new drivetrain();
   public final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
   public final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
@@ -40,7 +40,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
      
-  //  configureBindings();
+    configureBindings();
 
     /* Add options to the autoChooser */
     /* The option added via setDefaultOption() will be selected by default, and returned unless another option has been selected by the driver. */
@@ -63,15 +63,22 @@ public class RobotContainer {
    * joysticks}.
    */
   public void configureBindings() {
-    System.out.println("called config bindings");
+    /* A Button */
     Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
     Robot.oi.A.onFalse(new SparkMaxCommandStop(s_sparkMax));
+
+    /* B Button */
     Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
-    Robot.oi.B.onFalse(new SparkMaxCommand(s_sparkMax, -0.015));
+
+    // TODO
+    /* We'll have to make a button capable of reverse raising the arm in case it goes too far back */
+
+    /* X Button */
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -0.5)); // Run the intake at full speed while X is held
+    Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3));
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
-    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax, RobotMap.encoder5, RobotMap.encoder6));
+    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax));
     Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
 
     /* This is an attempt to use configureBindings with xbox buttons. */

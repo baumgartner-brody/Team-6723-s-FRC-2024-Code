@@ -3,11 +3,24 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class encoder_velocity implements Runnable {
-  Robot robot;
 
-  public encoder_velocity(Robot robot) {
-    this.robot = robot;
+  public double sparkMax5_vel;
+  public double sparkMax5_pos;
+  public double sparkMax5_rev;
 
+  public double sparkMax6_vel;
+  public double sparkMax6_pos;
+  public double sparkMax6_rev;
+
+  public double sparkMax7_vel;
+  public double sparkMax7_pos;
+  public double sparkMax7_rev;
+
+  public encoder_velocity() {
+    this.reset();
+  }
+
+  public void reset() {
     // Resets the encoders to zero rotations
     RobotMap.encoder5.setPosition(0);
     RobotMap.encoder6.setPosition(0);
@@ -25,17 +38,17 @@ public class encoder_velocity implements Runnable {
       }
       
       /* With brushless motors, we use 42 encoder units per revolution, hence the position and revs calucations */
-      double sparkMax5_vel = RobotMap.encoder5.getVelocity();
-      double sparkMax5_pos = RobotMap.encoder5.getPosition() % 42;
-      double sparkMax5_rev = RobotMap.encoder5.getPosition() / 42;
+      sparkMax5_vel = RobotMap.encoder5.getVelocity();
+      sparkMax5_pos = RobotMap.encoder5.getPosition() % 42;
+      sparkMax5_rev = RobotMap.encoder5.getPosition() / 42;
 
-      double sparkMax6_vel = RobotMap.encoder6.getVelocity();
-      double sparkMax6_pos = RobotMap.encoder6.getPosition() % 42;
-      double sparkMax6_rev = RobotMap.encoder6.getPosition() / 42;
+      sparkMax6_vel = RobotMap.encoder6.getVelocity();
+      sparkMax6_pos = RobotMap.encoder6.getPosition() % 42;
+      sparkMax6_rev = RobotMap.encoder6.getPosition() / 42;
 
-      double sparkMax7_vel = RobotMap.encoder7.getVelocity();
-      double sparkMax7_pos = RobotMap.encoder7.getPosition() % 42;
-      double sparkMax7_rev = RobotMap.encoder7.getPosition() / 42;
+      sparkMax7_vel = RobotMap.encoder7.getVelocity();
+      sparkMax7_pos = RobotMap.encoder7.getPosition() % 42;
+      sparkMax7_rev = RobotMap.encoder7.getPosition() / 42;
 
       SmartDashboard.putNumber("SparkMax 5 vel: ", sparkMax5_vel);
       SmartDashboard.putNumber("SparkMax 5 pos: ", sparkMax5_pos);

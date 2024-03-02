@@ -29,14 +29,13 @@ import frc.robot.subsystems.*;
 /*  state, specified by an encoder position close to 0                */
 /**********************************************************************/
 
+/* Since the logic to throw the exception uses "constants", it will report a Dead Code warning */
+/* We can use @SuppressWarnings to ignore certain warnings in java. */
+@SuppressWarnings("unused") 
 public class LowerArm extends CommandBase {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
     private final sparkMaxSubsystem s_sparkmax;
-
-    /* References to the encoders on the arm motors */
-    private final RelativeEncoder _encoder5;
-    private final RelativeEncoder _encoder6;
 
     private boolean _isFinished = false;
 
@@ -50,21 +49,16 @@ public class LowerArm extends CommandBase {
     /* These are the values I've done the least amount of work with, so they'll likely need tuning */
     /* ENCODER_VELOCITY_MIN should be close to what the encoders read if someone gently lowers the arm */
     /* ENCODER_VELOCITY_MAX should be close to what the encoders read if someone simulates slamming the arms down */
-    private final double ENCODER_VELOCITY_MIN = 100;
-    private final double ENCODER_VELOCITY_MAX = 1100; // Encoder readings
+    private final double ENCODER_VELOCITY_MIN = 0;
+    private final double ENCODER_VELOCITY_MAX = 12; // Encoder readings
 
     /* If the average encoder position is between 0 and FLAT_ENOUGH_POSITION, then this command has done its job. */
     /* We can additionally add a maximum amount of time we want this command to take, but as of right now the timer does nothing */
-    private final double FLAT_ENOUGH_POSITION = 50;
+    private final double FLAT_ENOUGH_POSITION = 2;
     
-    public LowerArm(sparkMaxSubsystem sparkMax, RelativeEncoder encoder5, RelativeEncoder encoder6) {
+    public LowerArm(sparkMaxSubsystem sparkMax) {
         s_sparkmax = sparkMax;
         addRequirements(s_sparkmax);
-
-        /* Establish references to the encoders on motors 5 & 6. */
-        /* I was not able to test if it is possible to establish references in this way, so this might require tweaking */
-        _encoder5 = encoder5;
-        _encoder6 = encoder6;
 
         /* Throw an exception if the programmer provided invalid values for the above constants */
         if (SPEED_MAX < SPEED_MIN || ENCODER_VELOCITY_MAX <= ENCODER_VELOCITY_MIN || FLAT_ENOUGH_POSITION < 0) {
@@ -79,12 +73,12 @@ public class LowerArm extends CommandBase {
     public void execute() {
         /* Sanity check - verify these encoder readings match the ones from encoder_velocity.java on the SmartDashboard */
         /* You may remove or comment this out when it is working consistently */
-        SmartDashboard.putNumber("Encoder 5 vel from LowerArm: ", _encoder5.getVelocity());
-        SmartDashboard.putNumber("Encoder 6 vel from LowerArm: ", _encoder6.getVelocity());
+        SmartDashboard.putNumber("Encoder 5 vel from LowerArm: ", Robot.encoder_data.sparkMax5_vel);
+        SmartDashboard.putNumber("Encoder 6 vel from LowerArm: ", Robot.encoder_data.sparkMax6_vel);
 
         /* Calculate averages between the two encoders */
-        double average_encoder_velocity = (Math.abs(_encoder5.getVelocity()) + Math.abs(_encoder6.getVelocity())) / 2.0;
-        double average_encoder_position = (Math.abs(_encoder5.getPosition()) + Math.abs(_encoder6.getPosition())) / 2.0;
+        double average_encoder_velocity = (Math.abs(Robot.encoder_data.sparkMax5_vel) + Math.abs(Robot.encoder_data.sparkMax6_vel)) / 2.0;
+        double average_encoder_position = (Math.abs(Robot.encoder_data.sparkMax5_pos) + Math.abs(Robot.encoder_data.sparkMax6_pos)) / 2.0;
         SmartDashboard.putNumber("Average encoder velocity: ", average_encoder_velocity);
         SmartDashboard.putNumber("Average encoder position: ", average_encoder_position);
 
@@ -121,7 +115,6 @@ public class LowerArm extends CommandBase {
             _isFinished = true;
         }
     }
-
 
     @Override
     public boolean isFinished(){

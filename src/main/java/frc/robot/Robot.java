@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   public static RobotContainer m_robotContainer;
 
   /* Simple thread to plot sensor velocity and such */
-	encoder_velocity encoder_data;
+	public static encoder_velocity encoder_data;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,20 +34,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    /* OI can be initialized first */
+    oi = new OI();
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotmap = new RobotMap();
     m_robotContainer = new RobotContainer();
-
-    /* As a rule of thumb instantiate OI after RobotMap and RobotContainer due to its tendency to have dependencies in those */
-    oi = new OI();
-    m_robotContainer.configureBindings();
+    
+    /* Configure camera's FPS and resolution, the string can be any string, and the number is the USB port */
+    UsbCamera camera = new UsbCamera("camera", 0);
+    camera.setFPS(24);
+    camera.setResolution(640, 800);
 
     /* Start a camera on RIO USB port 0 */
-    CameraServer.startAutomaticCapture(0);
-
-    /* Allow the arm speed to be controlled when the user presses B */
-    SmartDashboard.putNumber("Arm speed", -0.015);
+    CameraServer.startAutomaticCapture(camera);
   }
 
   /**
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     // Starts encoder data thread
-    encoder_data = new encoder_velocity(this);
+    encoder_data = new encoder_velocity();
     new Thread(encoder_data).start();
 
     /* Get the selected command from SmartDashboard's autoChooser */
@@ -100,7 +101,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     // Starts encoder data thread
-    encoder_data = new encoder_velocity(this);
+    encoder_data = new encoder_velocity();
     new Thread(encoder_data).start();
 
     // This makes sure that the autonomous stops running when
