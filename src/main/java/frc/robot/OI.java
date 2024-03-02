@@ -14,6 +14,8 @@ public class OI {
     public JoystickButton Y; /* Adding Y button as a test button for the new arm lowering command */
     public JoystickButton RightBumper;
 
+    public JoystickButton LeftBumper; // You can remap this. But this is the reverse raise command in case the arm goes too far
+
     public OI() {
         xbox = new XboxController(0);
 
@@ -24,6 +26,8 @@ public class OI {
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
         Y = new JoystickButton(xbox, XboxController.Button.kY.value);
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
+
+        LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
     }
 
     public XboxController getXboxController() {

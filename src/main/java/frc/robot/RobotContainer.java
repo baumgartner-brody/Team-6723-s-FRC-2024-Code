@@ -81,6 +81,10 @@ public class RobotContainer {
     Robot.oi.Y.onTrue(new LowerArm(s_sparkMax));
     Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
 
+    /* Left Bumper */
+    Robot.oi.LeftBumper.onTrue(new SparkMaxCommand(s_sparkMax, 0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
+
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */
     /* Right now, our B button mechanism to lower the arm is wonky, unreliable, and requires the driver to repeatly press the button as the arm jerks downwards. */
