@@ -78,7 +78,7 @@ public class RobotContainer {
     Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3));
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
-    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax));
+    Robot.oi.Y.onTrue(new LowerArmCommandGroup());
     Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
 
     /* Left Bumper */
