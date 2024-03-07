@@ -2,7 +2,8 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
-import frc.robot.commands.LowerArm;
+import frc.robot.commands.DropArmAcc;
+
 import frc.robot.commands.SparkMaxCommand;
 
 
@@ -21,8 +22,8 @@ public class ScoreNote1 extends SequentialCommandGroup {
             new DriveAuto(0, -.4, 0, 1),
             new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.1, 1.0, 0.75),
             new SuspendArmAndScore(),
-            new LowerArm(Robot.m_robotContainer.s_sparkMax)
+            new DropArmAcc()
         );
     }
 }
-   
+       

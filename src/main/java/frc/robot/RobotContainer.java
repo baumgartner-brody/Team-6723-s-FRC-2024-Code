@@ -46,8 +46,10 @@ public class RobotContainer {
     /* The option added via setDefaultOption() will be selected by default, and returned unless another option has been selected by the driver. */
     /* Options added via addOption() must be manually selected to be run. Commands must be instantiated this way to ensure they return new objects and */
     /* not references to objects that are old and no longer valid. */
-    autoChooser.setDefaultOption("DriveForward", new DriveAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
+    autoChooser.addOption("DriveForward", new DriveAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
     autoChooser.addOption("DriveForward then back", new AutoCommandGroup());
+    autoChooser.setDefaultOption("Score1Note", new ScoreNote1());
+    autoChooser.addOption("Score2Note", new ScoreNote2());
 
     /* Put the autoChooser on the SmartDashboard so it can be interacted with and seen */
     SmartDashboard.putData(autoChooser);
@@ -70,10 +72,10 @@ public class RobotContainer {
     /* B Button */
     Robot.oi.B.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025)); 
 
-    // TODO
+    // T(0_DO
     /* We'll have to make a button capable of reverse raising the arm in case it goes too far back */
 
-   Robot.oi.Menu.whileTrue(new IntakeQuick(s_sparkMax3, -0.5));//auto intake the disk
+   
 
     /* X Button */
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -0.5)); // Run the intake at full speed while X is held
@@ -84,10 +86,10 @@ public class RobotContainer {
     Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
 
     /* Left Bumper */
-    Robot.oi.LeftBumper.onTrue(new SparkMaxCommand(s_sparkMax, 0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.LeftBumper.onTrue(new DropArmAcc()); // Raise the arm at 10% speed while A is held
     Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
 
-    
+
 
 
 
