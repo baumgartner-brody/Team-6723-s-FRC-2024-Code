@@ -68,10 +68,12 @@ public class RobotContainer {
     Robot.oi.A.onFalse(new SparkMaxCommandStop(s_sparkMax));
 
     /* B Button */
-    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, -0.015)); 
+    Robot.oi.B.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025)); 
 
     // TODO
     /* We'll have to make a button capable of reverse raising the arm in case it goes too far back */
+
+   Robot.oi.Menu.whileTrue(new IntakeQuick(s_sparkMax3, -0.5));//auto intake the disk
 
     /* X Button */
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -0.5)); // Run the intake at full speed while X is held
@@ -84,6 +86,11 @@ public class RobotContainer {
     /* Left Bumper */
     Robot.oi.LeftBumper.onTrue(new SparkMaxCommand(s_sparkMax, 0.1)); // Raise the arm at 10% speed while A is held
     Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
+
+    
+
+
+
 
     /* This is an attempt to use configureBindings with xbox buttons. */
     /* This code was written on 2/26/2024, and has not been tested. The old code is available to un-comment in Robot.teleopPeriodic */

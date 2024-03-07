@@ -43,6 +43,7 @@ public class drivetrain extends SubsystemBase {
         timer = new Timer();
         timer.reset();
         timer.start();
+        RobotMap.gyro.reset();
     }
 
     public void doMecanumDrive(XboxController xbox) {
@@ -51,7 +52,11 @@ public class drivetrain extends SubsystemBase {
          *  If the driver exceeds X_DRIFT_THRESHOLD, X_OFFSET is reset. Offsets only apply at speeds below this threshold. This is to prevent the controller
          *  from misbehaving when the driver is moving around at significant speeds.
          *  STORED_X_TIME and STORED_X_READING are bookkeeping variables to ensure the offset calculation window is dynamic and updated correctly.
-         */
+         */ 
+
+        /* FOD math from https://www.kauailabs.com/support/sf2/kb/faq.php?id=28 */
+        double gyro_angle = RobotMap.gyro.getAngle();
+        double gyro_radians = gyro_angle * (Math.PI / 180);
 
         // X offset
         if (xbox.getLeftX() == STORED_X_READING) {
@@ -106,7 +111,19 @@ public class drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Y_OFFSET: ", Y_OFFSET);
         SmartDashboard.putNumber("Z_OFFSET: ", Z_OFFSET);
 
-        RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
+        // These may not refer to the same thing
+        double forward = (xbox.getLeftY() - Y_OFFSET);
+        double strafe = (-xbox.getLeftX() + X_OFFSET);
+
+        double temp = (forward * Math.cos(gyro_radians)) + (strafe * Math.sin(gyro_radians));
+
+        strafe = (-forward * Math.sin(gyro_radians)) + (strafe * Math.sin(gyro_radians));
+        forward = temp;
+
+        // Original code in case FOD doesn't work
+        //RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
+
+        RobotMap.RobotDrive.driveCartesian(forward, strafe, -xbox.getRightX() + Z_OFFSET);
     }
 
     /* Drive the robot with a parameter x, y, and z speed */

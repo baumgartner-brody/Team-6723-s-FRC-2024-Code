@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 //import edu.wpi.first.wpilibj.DigitalInput; // This will be needed for limit switches
 
@@ -37,6 +38,8 @@ public class RobotMap {
     public static RelativeEncoder encoder6;
     public static RelativeEncoder encoder7;
 
+    public static AnalogGyro gyro;
+
     /* Old limit switch code - leaving in for reference */
     /*
     public static DigitalInput lsTop;
@@ -66,6 +69,10 @@ public class RobotMap {
       encoder5 = sparkMax5.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
       encoder6 = sparkMax6.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
       encoder7 = sparkMax7.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+
+      gyro = new AnalogGyro(0);
+      gyro.calibrate();
+      gyro.reset();
       
       //https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Encoder%20Feedback%20Device/src/main/java/frc/robot/Robot.java
       /**

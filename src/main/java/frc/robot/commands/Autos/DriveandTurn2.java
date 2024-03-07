@@ -1,9 +1,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.commands.LowerArm;
-import frc.robot.commands.SparkMaxCommand;
+
 
 /* A SequentialCommandGroup is a chain of commands that executes in the order they were added to the group. */
 /* In its current state, this autonomous routine will drive forward for 2 seconds, then backwards for 2 seconds. */
@@ -13,13 +11,13 @@ import frc.robot.commands.SparkMaxCommand;
  *  a SequentialCommandGroup that adds a ParallelCommandGroup as a command in addCommands().
  *  https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/ParallelCommandGroup.html
  **/
-public class ScoreNote extends SequentialCommandGroup {
+public class DriveandTurn2 extends SequentialCommandGroup {
     
-    public ScoreNote() {
+    public DriveandTurn2() {
         addCommands(
-            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.1, 5.0, 0.75), // We'll have to tweak these TODO
-            new SuspendArmAndScore(),
-            new LowerArm(Robot.m_robotContainer.s_sparkMax)
+            new DriveAuto(-.5, 0, 0, 1.5),
+            new DriveAuto(0, 0, -.25, 1),
+            new DriveAuto(-.5, 0, 0, .5)
         );
     }
 }
