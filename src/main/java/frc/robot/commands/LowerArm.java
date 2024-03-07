@@ -34,11 +34,11 @@ public class LowerArm extends Command {
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
     private final sparkMaxSubsystem s_sparkmax;
 
-    private final _speed; // The speed we should run the arm
+    private double _speed; // The speed we should run the arm
 
     // The encoder position we should turn the arm off at
     // When this position is reached we'll run LowerArm2
-    private final _pos; 
+    private double _pos; 
     
     public LowerArm(sparkMaxSubsystem sparkMax, double speed, double pos) {
         s_sparkmax = sparkMax;

@@ -1,6 +1,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 
 /* A SequentialCommandGroup is a chain of commands that executes in the order they were added to the group. */
 /* In its current state, this autonomous routine will drive forward for 2 seconds, then backwards for 2 seconds. */

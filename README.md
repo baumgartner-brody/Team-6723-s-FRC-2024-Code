@@ -8,7 +8,7 @@ To make changes to this repo, you should be able to run the following commands:
 
 `git branch -m mynewbranch master` - This will create a new branch called "mynewbranch" (from master) and automatically check it out for you.
 
-Alternatively, you can run `git checkout mynewbranch` to create / checkout a branch. This will allow you to make commits to an existing branch in addition to creating a new branch.
+Alternatively, you can run `git checkout -b mynewbranch` to create / checkout a branch. This will allow you to make commits to an existing branch in addition to creating a new branch.
 
 `git pull` - If you're working on a branch that someone else is working on, run this to stay up to date with their commits.
 
