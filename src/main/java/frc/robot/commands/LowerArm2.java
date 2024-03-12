@@ -35,7 +35,7 @@ import frc.robot.subsystems.*;
 public class LowerArm2 extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
-    private final sparkMaxSubsystem s_sparkmax;
+    private final sparkMaxSubsystem s_sparkmax = Robot.SparkMaxSubsystem;
 
     private boolean _isFinished = false;
 
@@ -56,8 +56,7 @@ public class LowerArm2 extends Command {
     /* We can additionally add a maximum amount of time we want this command to take, but as of right now the timer does nothing */
     private final double FLAT_ENOUGH_POSITION = 2;
     
-    public LowerArm2(sparkMaxSubsystem sparkMax) {
-        s_sparkmax = sparkMax;
+    public LowerArm2() {
         addRequirements(s_sparkmax);
 
         /* Throw an exception if the programmer provided invalid values for the above constants */
@@ -117,7 +116,7 @@ public class LowerArm2 extends Command {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return _isFinished;
     }
 

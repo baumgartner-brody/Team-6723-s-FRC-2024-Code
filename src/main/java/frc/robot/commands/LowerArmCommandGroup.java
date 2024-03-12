@@ -18,8 +18,8 @@ public class LowerArmCommandGroup extends SequentialCommandGroup {
     /* Adjust params accordingly. */
     public LowerArmCommandGroup() {
         addCommands(
-            new LowerArm(Robot.m_robotContainer.s_sparkMax, 0.1, 16.0),
-            new LowerArm2(Robot.m_robotContainer.s_sparkMax)
+            new LowerArm(0.1, 16.0),
+            new LowerArm2()
         );
     }
 }

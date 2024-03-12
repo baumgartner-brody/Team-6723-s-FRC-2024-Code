@@ -7,15 +7,14 @@ import frc.robot.subsystems.*;
 public class SparkMaxCommandStop extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
-    private final sparkMaxSubsystem s_sparkmax;
+    private final sparkMaxSubsystem s_sparkmax = Robot.SparkMaxSubsystem;
     
-    public SparkMaxCommandStop (sparkMaxSubsystem sparkMax) {
-        s_sparkmax = sparkMax;
+    public SparkMaxCommandStop () {
         addRequirements(s_sparkmax);
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 

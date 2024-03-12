@@ -7,17 +7,13 @@ import frc.robot.subsystems.*;
 public class IntakeCommandStop extends Command {
 
     /* A reference to the subsystem that controls the intake Spark Max */
-    private final intakeSubsystem s_sparkmax3;
+    private final intakeSubsystem s_sparkmax3 = Robot.IntakeSubsystem;
     
-    public IntakeCommandStop(intakeSubsystem sparkMax3) {
-        s_sparkmax3 = sparkMax3;
-        addRequirements(s_sparkmax3);
-    }
+    public IntakeCommandStop() {}
 
     @Override
     public void initialize() {
-        /* Initialize does nothing here, but that's ok. */
-        /* In cases like this, it is not technically required to @Override it, but to keep program structure, I recommend leaving it in. */
+        addRequirements(s_sparkmax3);
     }
 
     @Override 

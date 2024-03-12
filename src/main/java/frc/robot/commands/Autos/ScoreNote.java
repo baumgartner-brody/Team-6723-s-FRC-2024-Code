@@ -17,9 +17,9 @@ public class ScoreNote extends SequentialCommandGroup {
     
     public ScoreNote() {
         addCommands(
-            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.1, 5.0, 0.75), // We'll have to tweak these TODO
+            new SparkMaxCommand(-0.1, 5.0, 0.75), // We'll have to tweak these TODO
             new SuspendArmAndScore(),
-            new LowerArmCommandGroup(Robot.m_robotContainer.s_sparkMax)
+            new LowerArmCommandGroup()
         );
     }
 }

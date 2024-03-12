@@ -32,7 +32,7 @@ import frc.robot.subsystems.*;
 public class LowerArm extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
-    private final sparkMaxSubsystem s_sparkmax;
+    private final sparkMaxSubsystem s_sparkmax = Robot.SparkMaxSubsystem;
 
     private double _speed; // The speed we should run the arm
 
@@ -40,15 +40,15 @@ public class LowerArm extends Command {
     // When this position is reached we'll run LowerArm2
     private double _pos; 
     
-    public LowerArm(sparkMaxSubsystem sparkMax, double speed, double pos) {
-        s_sparkmax = sparkMax;
-        addRequirements(s_sparkmax);
+    public LowerArm(double speed, double pos) {
         _speed = speed;
         _pos = pos;
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        addRequirements(s_sparkmax);
+    }
 
     @Override
     public void execute() {
@@ -56,9 +56,10 @@ public class LowerArm extends Command {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         double average_encoder_position = (Math.abs(Robot.encoder_data.sparkMax5_pos) + Math.abs(Robot.encoder_data.sparkMax6_pos)) / 2.0;
 
+        // ! IMPORTANT ! - test this logic (didn't end up working at competition)
         return average_encoder_position <= _pos;
     }
 

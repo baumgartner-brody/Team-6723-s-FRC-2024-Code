@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 /* A command that does nothing for a specified number of seconds */
 public class Wait extends Command {
 
-    private final Timer timer = new Timer();
+    private final Timer _timer = new Timer();
     private double _time;
 
     /* Wait constructor */
@@ -16,8 +16,8 @@ public class Wait extends Command {
 
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
+        _timer.reset();
+        _timer.start();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Wait extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.get() > _time;
+        return _timer.get() > _time;
     }
 
     @Override

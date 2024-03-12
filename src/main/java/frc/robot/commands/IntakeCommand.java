@@ -8,33 +8,29 @@ import frc.robot.subsystems.*;
 public class IntakeCommand extends Command {
 
     /* A reference to the subsystem that controls the intake Spark Max */
-    private final intakeSubsystem s_sparkmax3;
+    private final intakeSubsystem s_sparkmax3 = Robot.SparkMaxSubsystem;
     private double _speed;
 
-    private Timer _timer = null;
+    private final Timer _timer = new Timer();
     private double _time = 0.0; // If time is not specified this command will run indefinitely
     
-    public IntakeCommand(intakeSubsystem sparkMax3, double speed) {
-        s_sparkmax3 = sparkMax3;
+    public IntakeCommand(double speed) {
         _speed = speed;
-        addRequirements(s_sparkmax3);
     }
 
     /* Additional constructor that allows a time to be specified */
-    public IntakeCommand(intakeSubsystem sparkMax3, double speed, double time) {
-        s_sparkmax3 = sparkMax3;
-        addRequirements(s_sparkmax3);
+    public IntakeCommand(double speed, double time) {
         _speed = speed;
         _time = time;
-        _timer = new Timer();
-        _timer.reset();
-        _timer.start();
     }
 
     @Override
     public void initialize() {
-        /* Initialize does nothing here, but that's ok. */
-        /* In cases like this, it is not technically required to @Override it, but to keep program structure, I recommend leaving it in. */
+        // ! IMPORTANT ! We put addRequirements in initialize since it is always called upon when a command is created
+        addRequirements(s_sparkmax3);
+
+        _timer.reset();
+        _timer.start();
     }
 
     @Override 
@@ -43,9 +39,9 @@ public class IntakeCommand extends Command {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         /* If you specified a time in, this command will run for that time, otherwise it will run indefinitely */
-        if (_timer != null) {
+        if (_time != 0.0) {
             return _timer.get() > _time;
         } else {
             return false;

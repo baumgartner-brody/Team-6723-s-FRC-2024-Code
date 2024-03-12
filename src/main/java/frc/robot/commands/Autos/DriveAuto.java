@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 /* DriveAuto is an autonomous command that drives the robot with a specified x, y, z speed for a specified amount of time. */
 public class DriveAuto extends Command {
-    private final Timer timer = new Timer();
+    private final Timer _timer = new Timer();
     private double xSpeed;
     private double ySpeed;
     private double zSpeed;
@@ -32,22 +32,22 @@ public class DriveAuto extends Command {
      **/
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
+        _timer.reset();
+        _timer.start();
     }
 
     /* Execute can be thought of as the part of the command that is continuously executed while the command is running. */
     @Override
     public void execute() {
         /* Use the mecanumDrive subsystem to drive the robot */
-        Robot.m_robotContainer.c_mecanumDrive.run(xSpeed, ySpeed, zSpeed);
+        Robot.Drivetrain.run(xSpeed, ySpeed, zSpeed);
     }
     
     /* isFinished() will return a boolean that determines if end() should be called. For commands that run while a button is held, they return true. */
     /* For time-based, encoder-based, or commands that stop based on some sort of condition, they return whether that condition has been satisfied. */
     @Override
     public boolean isFinished() {
-        return timer.get() >= timeout;
+        return _timer.get() >= timeout;
     }
  
     // Called once the command ends or is interrupted.
@@ -55,7 +55,7 @@ public class DriveAuto extends Command {
     /* This has to do with something called a function signature: https://en.wikipedia.org/wiki/Type_signature */
     @Override
     public void end(boolean interrupted) {
-        Robot.m_robotContainer.c_mecanumDrive.run(0, 0, 0);
+        Robot.Drivetrain.stop();
     }
     
 }

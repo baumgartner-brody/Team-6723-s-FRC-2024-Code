@@ -9,52 +9,28 @@ import frc.robot.subsystems.*;
 public class SparkMaxCommand extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
-    private final sparkMaxSubsystem s_sparkmax;
+    private final SparkMaxSubsystem s_sparkMax = Robot.SparkMaxSubsystem;
     private double _speed;
     
-    private Timer _timer = null;
+    private Timer _timer = new Timer();
     private double _time = 0.0; // If time is not specified this command will run indefinitely
-
-    /* https://www.youtube.com/watch?v=BGLGzRXY5Bw */
-    private double _revs = 0.0; // Run the arm for a specified number of revolutions
     
-    public SparkMaxCommand (sparkMaxSubsystem sparkMax, double speed) {
-        s_sparkmax = sparkMax;
-        addRequirements(s_sparkmax);
+    public SparkMaxCommand (double speed) {
         _speed = speed;
     }
 
     /* Additional constructor that allows a time to be specified */
-    public SparkMaxCommand(sparkMaxSubsystem sparkMax, double speed, double time) {
-        s_sparkmax = sparkMax;
-        addRequirements(s_sparkmax);
+    public SparkMaxCommand(double speed, double time) {
         _speed = speed;
         _time = time;
-        _timer = new Timer();
-        _timer.reset();
-        _timer.start();
-    }
-
-    /* Additional constructor that allows a time and a specified number of revolutions to be specified */
-    public SparkMaxCommand(sparkMaxSubsystem sparkMax, double speed, double time, double revs) {
-        s_sparkmax = sparkMax;
-        addRequirements(s_sparkmax);
-        _speed = speed;
-        _time = time;
-        _timer = new Timer();
-        _timer.reset();
-        _timer.start();
-        
-        _revs = revs;
-
-        /* When working with encoders, it's a good idea to reset them */
-        /* In this case, we're enforcing the arm to read 0 when it's on the ground */
-        RobotMap.encoder5.setPosition(0);
-        RobotMap.encoder6.setPosition(0);
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        addRequirements(Robot.SparkMaxSubsystem); // Ensure other commands needing this subsystem have to stop
+        _timer.reset();
+        _timer.start();
+    }
 
     @Override
     public void execute() {
@@ -72,12 +48,8 @@ public class SparkMaxCommand extends Command {
     @Override
     public boolean isFinished() {
 
-        /* If _revs is specified, */
-        if (_revs != 0.0) {
-            double avg_encoder_revs = (Robot.encoder_data.sparkMax5_rev + Robot.encoder_data.sparkMax6_rev) / 2.0;
-        
-            return avg_encoder_revs >= _revs || _timer.get() > _time;
-        } else if (_timer != null) {
+        /* If _time is specified, use the timer to dictate how long this command should run */
+        if (_time != 0.0) {
             return _timer.get() > _time;
         } else {
             return false;

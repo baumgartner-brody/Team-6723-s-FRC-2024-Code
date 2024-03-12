@@ -11,7 +11,7 @@ import java.lang.Math; // abs
 
 public class drivetrain extends SubsystemBase {
 
-    private final Timer timer;
+    private final Timer timer = new Timer();
 
     /* The speed that offsets will be calculated below and reset when the driver exceeds */
     private double X_DRIFT_THRESHOLD = 0.15;
@@ -40,7 +40,6 @@ public class drivetrain extends SubsystemBase {
 
     /* drivetrain constructor initializes the timer */
     public drivetrain() {
-        timer = new Timer();
         timer.reset();
         timer.start();
     }
@@ -115,6 +114,10 @@ public class drivetrain extends SubsystemBase {
     /* z - Rotation (maps to xbox.getRightX()) */
     public void doMecanumDrive (double x, double y, double z) {
         RobotMap.RobotDrive.driveCartesian(x, y, z);
+    }
+
+    public void stop() {
+        RobotMap.RobotDrive.driveCartesian(0, 0, 0);
     }
     
 }
