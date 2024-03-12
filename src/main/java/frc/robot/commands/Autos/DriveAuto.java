@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 /* DriveAuto is an autonomous command that drives the robot with a specified x, y, z speed for a specified amount of time. */
 public class DriveAuto extends Command {
-    private final Timer timer = new Timer();
+    private Timer timer;
     private double xSpeed;
     private double ySpeed;
     private double zSpeed;
@@ -21,6 +21,8 @@ public class DriveAuto extends Command {
         xSpeed = x;
         ySpeed = y;
         zSpeed = z;
+
+        timer = new Timer();
 
         timeout = time_in;
     }
@@ -56,6 +58,7 @@ public class DriveAuto extends Command {
     @Override
     public void end(boolean interrupted) {
         Robot.m_robotContainer.c_mecanumDrive.run(0, 0, 0);
+        System.out.println("finished drivetrain");
     }
     
 }

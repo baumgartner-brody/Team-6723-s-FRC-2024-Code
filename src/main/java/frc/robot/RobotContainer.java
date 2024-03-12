@@ -24,9 +24,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class RobotContainer {
   // The robot's subsystems are defined here...
-  public final drivetrain s_drivetrain = new drivetrain();
-  public final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
-  public final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
+  public static final drivetrain s_drivetrain = new drivetrain();
+  public static final sparkMaxSubsystem s_sparkMax = new sparkMaxSubsystem();
+  public static final intakeSubsystem s_sparkMax3 = new intakeSubsystem();
 
   //commands
   
@@ -48,8 +48,10 @@ public class RobotContainer {
     /* not references to objects that are old and no longer valid. */
     autoChooser.addOption("DriveForward", new DriveAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
     autoChooser.addOption("DriveForward then back", new AutoCommandGroup());
-    autoChooser.setDefaultOption("Score1Note", new ScoreNote1());
+    autoChooser.addOption("Score1NoteRed", new ScoreNote1Red());
+    autoChooser.addOption("Score1NoteBlue", new ScoreNote1Blue());
     autoChooser.addOption("Score2Note", new ScoreNote2());
+    autoChooser.setDefaultOption("f*ckedauto", new newauto());
 
     /* Put the autoChooser on the SmartDashboard so it can be interacted with and seen */
     SmartDashboard.putData(autoChooser);
@@ -66,28 +68,33 @@ public class RobotContainer {
    */
   public void configureBindings() {
     /* A Button */
-    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.1)); // Raise the arm at 10% speed while A is held
+    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.2)); // Raise the arm at 10% speed while A is held
     Robot.oi.A.onFalse(new SparkMaxCommandStop(s_sparkMax));
 
     /* B Button */
-    Robot.oi.B.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025)); 
-
-    // T(0_DO
-    /* We'll have to make a button capable of reverse raising the arm in case it goes too far back */
-
-   
+    //Robot.oi.B.onTrue(new LowerArmCommandGroup(s_sparkMax)); //Smart lowering arm mecannsim
+    //Robot.oi.B.onFalse(new SparkMaxCommandStop(s_sparkMax));
+    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, 0.001));
 
     /* X Button */
-    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -0.5)); // Run the intake at full speed while X is held
+    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -.8)); // Run the intake at 50% speed while X is held
     Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3));
+    
+    Robot.oi.Y.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025));  //Suspends the arm, so it doesn't go up or down
+
+    Robot.oi.LeftBumper.onTrue(new SparkMaxCommand(s_sparkMax, 0.25));
+    Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
-    Robot.oi.Y.onTrue(new LowerArm(s_sparkMax));
-    Robot.oi.RightBumper.whileTrue(new IntakeCommand(s_sparkMax3, -0.2));
+    
+    
+    
+   
 
-    /* Left Bumper */
-    Robot.oi.LeftBumper.onTrue(new DropArmAcc()); // Raise the arm at 10% speed while A is held
-    Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
+  
+
+    
+   
 
 
 

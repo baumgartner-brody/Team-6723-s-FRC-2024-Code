@@ -121,9 +121,9 @@ public class drivetrain extends SubsystemBase {
         forward = temp;
 
         // Original code in case FOD doesn't work
-        //RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
+        RobotMap.RobotDrive.driveCartesian(xbox.getLeftY() - Y_OFFSET, -xbox.getLeftX() + X_OFFSET, -xbox.getRightX() + Z_OFFSET);
 
-        RobotMap.RobotDrive.driveCartesian(forward, strafe, -xbox.getRightX() + Z_OFFSET);
+       // RobotMap.RobotDrive.driveCartesian(forward, strafe, -xbox.getRightX() + Z_OFFSET);
     }
 
     /* Drive the robot with a parameter x, y, and z speed */

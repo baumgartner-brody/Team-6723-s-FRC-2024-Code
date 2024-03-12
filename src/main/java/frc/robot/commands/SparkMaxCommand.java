@@ -73,11 +73,8 @@ public class SparkMaxCommand extends Command {
     public boolean isFinished() {
 
         /* If _revs is specified, */
-        if (_revs != 0.0) {
-            double avg_encoder_revs = (Robot.encoder_data.sparkMax5_rev + Robot.encoder_data.sparkMax6_rev) / 2.0;
-        
-            return avg_encoder_revs >= _revs || _timer.get() > _time;
-        } else if (_timer != null) {
+        if (_timer != null) {
+            System.out.println("correct end");
             return _timer.get() > _time;
         } else {
             return false;
@@ -87,6 +84,7 @@ public class SparkMaxCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         s_sparkmax.stop();
+        System.out.println("raisearm/lower arm ScoreNote1 done");
     }
 
 }

@@ -12,7 +12,7 @@ public class OI {
     public JoystickButton A;
     public JoystickButton B;
     public JoystickButton X;
-    public JoystickButton Menu;
+   // public JoystickButton Menu;
     public JoystickButton Y; /* Adding Y button as a test button for the new arm lowering command */
     public JoystickButton RightBumper;
 
@@ -27,7 +27,7 @@ public class OI {
         B = new JoystickButton(xbox, XboxController.Button.kB.value);
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
         Y = new JoystickButton(xbox, XboxController.Button.kY.value);
-        Menu = new JoystickButton(xbox, XboxController.Button.kStart.value);
+   //     Menu = new JoystickButton(xbox, XboxController.Button.kStart.value);
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
 
         LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
@@ -44,7 +44,7 @@ public class OI {
         SmartDashboard.putNumber("Xbox Turn", xbox.getRightX());
         SmartDashboard.putNumber("Xbox Strafe", xbox.getLeftX());
         SmartDashboard.putNumber("Xbox Foward", xbox.getLeftY());
-        SmartDashboard.putBoolean("Menu Button Status", xbox.getStartButton());
+      //  SmartDashboard.putBoolean("Menu Button Status", xbox.getStartButton());
 
         // 2/11/2024 - put A button status on smartDashboard (debugging)
         SmartDashboard.putBoolean("A is pressed: ", xbox.getAButton());

@@ -16,6 +16,8 @@ public class encoder_velocity implements Runnable {
   public double sparkMax7_pos;
   public double sparkMax7_rev;
 
+  public double avg_encoder_revs; // The avg abs revs of 5 & 6 
+
   public encoder_velocity() {
     this.reset();
   }
@@ -26,6 +28,7 @@ public class encoder_velocity implements Runnable {
     RobotMap.encoder6.setPosition(0);
     RobotMap.encoder7.setPosition(0);
   }
+  
 
   public void run() {
     while (true) {
@@ -61,6 +64,10 @@ public class encoder_velocity implements Runnable {
       SmartDashboard.putNumber("SparkMax 7 vel: ", sparkMax7_vel);
       SmartDashboard.putNumber("SparkMax 7 pos: ", sparkMax7_pos);
       SmartDashboard.putNumber("SparkMax 7 rev: ", sparkMax7_rev);
+
+      avg_encoder_revs = (-(sparkMax5_rev) + (sparkMax6_rev)) / 2.0;
+
+      SmartDashboard.putNumber("avg encoder revs: ", avg_encoder_revs);
     }
   }
 }

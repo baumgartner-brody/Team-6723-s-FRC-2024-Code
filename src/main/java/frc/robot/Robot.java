@@ -43,12 +43,13 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     
     /* Configure camera's FPS and resolution, the string can be any string, and the number is the USB port */
-    UsbCamera camera = new UsbCamera("camera", 0);
-    camera.setFPS(24);
-    camera.setResolution(640, 800);
+    //UsbCamera camera = new UsbCamera("camera", "/dev/0");
+    //camera.setFPS(24);
+    //camera.setResolution(640, 800);
 
     /* Start a camera on RIO USB port 0 */
-    CameraServer.startAutomaticCapture(camera);
+    CameraServer.startAutomaticCapture(0);
+    CameraServer.startAutomaticCapture(1);
   }
 
   /**
@@ -81,6 +82,7 @@ public class Robot extends TimedRobot {
     // Starts encoder data thread
     encoder_data = new encoder_velocity();
     new Thread(encoder_data).start();
+    
 
     /* Get the selected command from SmartDashboard's autoChooser */
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -103,6 +105,7 @@ public class Robot extends TimedRobot {
     // Starts encoder data thread
     encoder_data = new encoder_velocity();
     new Thread(encoder_data).start();
+    
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

@@ -27,12 +27,16 @@ public class IntakeCommand extends Command {
         _speed = speed;
         _time = time;
         _timer = new Timer();
-        _timer.reset();
-        _timer.start();
+       
     }
 
     @Override
     public void initialize() {
+
+        if (_timer != null) {
+            _timer.reset();
+            _timer.start();
+        }
         /* Initialize does nothing here, but that's ok. */
         /* In cases like this, it is not technically required to @Override it, but to keep program structure, I recommend leaving it in. */
     }
@@ -57,6 +61,7 @@ public class IntakeCommand extends Command {
     @Override 
     public void end(boolean interrupted) {
         s_sparkmax3.stop();
+        System.out.println("End of intake shot auto");
     }
 
 }
