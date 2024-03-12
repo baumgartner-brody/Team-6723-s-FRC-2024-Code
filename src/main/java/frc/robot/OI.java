@@ -13,21 +13,29 @@ public class OI {
     public JoystickButton X;
     public JoystickButton Y; /* Adding Y button as a test button for the new arm lowering command */
     public JoystickButton RightBumper;
-
     public JoystickButton LeftBumper; // You can remap this. But this is the reverse raise command in case the arm goes too far
 
+    // ! IMPORTANT ! - these commands are NOT up to date with what we had at competition
     public OI() {
         xbox = new XboxController(0);
 
-        /* Construct triggers using the JoystickButton constructor. */
-        /* This is known as upcasting, which is similar, but not the same thing as downcasting: https://en.wikipedia.org/wiki/Downcasting */
         A = new JoystickButton(xbox, XboxController.Button.kA.value);
+        A.whileHeld(new SparkMaxCommand(-0.1));
+
         B = new JoystickButton(xbox, XboxController.Button.kB.value);
+        B.toggleWhenPressed(new SparkMaxCommand(-0.015)); 
+
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
+        X.whileHeld(new IntakeCommand(-0.5));
+
         Y = new JoystickButton(xbox, XboxController.Button.kY.value);
+        Y.toggleWhenPressed(new LowerArmCommandGroup());
+
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
+        RightBumper.whileHeld(new IntakeCommand(s_sparkMax3, -0.2));
 
         LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
+        LeftBumper.whileHeld(new SparkMaxCommandStop(0.1));
     }
 
     public XboxController getXboxController() {

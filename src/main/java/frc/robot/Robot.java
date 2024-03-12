@@ -17,16 +17,28 @@ import edu.wpi.first.cscore.UsbCamera;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static RobotMap robotmap;
+
+  /* These declarations are for the autonomous chooser button on the SmartDashboard
+  *  If it ever doesn't show up try either running the code on another computer or 
+  *  renaming the variable "autoChooser" to something else (supposedly this was a more common old bug)
+  */
+  Command autonomousCommand;
+  public SendableChooser<Command> autoChooser;
+
+  /** The static keyword needs to be used with caution. 
+   *  It is used to declare variables that may only have 1 unique instance in an entire codebase.
+   *  For this reason, we use it for subsystems and OI, since the robot should only ever have one 
+   *  of each subsystem, and one object to interact with the joystick. 
+   * 
+   *  Unless you know what you are doing, avoid using "static" in other places.
+  */
   public static OI oi;
-
-  private Command m_autonomousCommand;
-  private Command c_mecanumDriveCommand;
-
-  public static RobotContainer m_robotContainer;
+  public static drivetrain Drivetrain;
+  public static intakeSubsystem IntakeSubsystem;
+  public static sparkMaxSubsystem SparkMaxSubsystem;
 
   /* Simple thread to plot sensor velocity and such */
-	public static encoder_velocity encoder_data;
+	public encoder_velocity encoder_data;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,21 +46,40 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    /* OI can be initialized first */
-    oi = new OI();
 
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    robotmap = new RobotMap();
-    m_robotContainer = new RobotContainer();
+    RobotMap.init(); // RobotMap is the first thing that should be initialized.
+
+    /* Make sure to initialize each of your subsystems here  */
+    oi = new OI();
+    Drivetrain = new drivetrain();
+    IntakeSubsytem = new intakeSubsystem();
+    SparkMaxSubsystem = new sparkMaxSubsystem();
+
+    // Begin camera capture
+    CameraServer.startAutomaticCapture();
+
+    /* AutoChooser config goes here */
+    // ! IMPORTANT ! - You need to fill this out again 3/12/2024
+    autoChooser = new SendableChooser<Command>();
+
+    autoChooser.setDefaultOption("DriveForward", new DriveAuto(0.3, 0, 0, 2)); // 2/17/2024 - correct way to instantiate an auto command
+    autoChooser.addOption("DriveForward then back", new AutoCommandGroup());
+
+    /* Put the autoChooser on the SmartDashboard so it can be interacted with and seen */
+    SmartDashboard.putData(autoChooser);
     
+    // EXPERIMENTAL SECTION (remove unless tested with 2 cameras)
     /* Configure camera's FPS and resolution, the string can be any string, and the number is the USB port */
-    UsbCamera camera = new UsbCamera("camera", 0);
+    // We can play with this more
+    UsbCamera camera = new UsbCamera("camera", "dev/usb0"); 
     camera.setFPS(24);
     camera.setResolution(640, 800);
 
     /* Start a camera on RIO USB port 0 */
-    CameraServer.startAutomaticCapture(camera);
+    //CameraServer.startAutomaticCapture(camera);
+
+    // END OF EXPERIMENTAL SECTION
+
   }
 
   /**
@@ -69,7 +100,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    CommandScheduler.getInstance().removeAll(); // Ensures nothing runs when robot is disabled
+    CommandScheduler.getInstance().close();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -83,17 +117,18 @@ public class Robot extends TimedRobot {
     new Thread(encoder_data).start();
 
     /* Get the selected command from SmartDashboard's autoChooser */
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autonomousCommand = (Command)autoChooser.getSelected();
 
     /* Start the command. This is why they need to be instantiated the way they are in RobotContainer. They need to be treated as new objects. */
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    } // ! IMPORTANT ! - With an else clause here, you can have a failsafe auto if for whatever reason SmartDashboard is acting up
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
     oi.otherOI();
   }
 
@@ -108,47 +143,18 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    c_mecanumDriveCommand = m_robotContainer.getMecanumDrive();
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
   }
 
   /* This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    c_mecanumDriveCommand.schedule(); // Ensure the mecanumDriveCommand is always running during teleOp
+    CommandScheduler.getInstance().run();
+    drivetrain.doMecanumDrive(oi.getXboxController());
 
-    oi.otherOI();
-
-    /* The old, ah-hoc way to use xbox buttons. We are trying to port them over to configureBindings() in RobotContainer */
-    /*
-    if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton() && 
-        !oi.getXboxController().getXButton()) {
-      m_robotContainer.s_sparkMax.stop();
-    } else if (oi.getXboxController().getAButton()) {
-      m_robotContainer.s_sparkMax.run(-0.1);
-    } else if (oi.getXboxController().getXButton()) {
-
-      double avg_encoder_velocity = (robotmap.encoder5.getVelocity() + robotmap.encoder6.getVelocity()) / 2;
-      double speed = avg_encoder_velocity / 42;
-
-      SmartDashboard.putNumber("speed: ", speed);
-
-      double speed_to_run_arm = Math.max(-speed, -0.015);
-
-      SmartDashboard.putNumber("speed_to_run_arm: ", speed_to_run_arm);
-
-      m_robotContainer.s_sparkMax.run(speed_to_run_arm);
-    }
-
-    if (!oi.getXboxController().getYButton()) {
-      m_robotContainer.s_sparkMax3.stop();
-    } else if (oi.getXboxController().getYButton()) {
-      m_robotContainer.s_sparkMax3.run(-1);
-    }
-    */
+    oi.otherOI(); // Auxilary OI helper
   }
    
   @Override

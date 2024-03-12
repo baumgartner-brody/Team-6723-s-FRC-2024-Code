@@ -16,6 +16,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
 
+/** Since all of the MotorControllers in RobotMap are static,
+ *  there is no need to ever create a RobotMap object in Robot.java
+ *  You do, however, need to call RobotMap.init() before trying to use any of the motors.
+ */
 public class RobotMap {
     public static MecanumDrive RobotDrive;
 
@@ -45,10 +49,6 @@ public class RobotMap {
     public static DigitalInput lsTop2;
     public static DigitalInput lsBottom2;
     */
-
-    public RobotMap() {
-      init();
-    }
 
     public void init() {
       leftmotor1 = new WPI_TalonSRX(0);
