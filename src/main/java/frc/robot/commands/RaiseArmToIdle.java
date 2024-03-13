@@ -10,30 +10,8 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import frc.robot.encoder_velocity;
+import frc.robot.OI.ArmStates;
 
-
-/* The idea behind this command is that the driver should be able to press a button */
-/*  and have the code do all of the work involved in gently lowering the arm. */
-
-/**********************************************************************/
-/* The math in a nutshell:                                            */
-/*  The arm motor speed should be restricted between two values, one  */
-/*  keeps the arm up rigidly, and one does little to keep the arm up. */
-/*                                                                    */
-/*  The arm motors should run at a speed within the specified range,  */
-/*  calculated by determining how fast the arm is falling.            */
-/*                                                                    */
-/*  If the arm is falling "fast" then more speed (resistance) should  */
-/*  be applied to prevent it from doing so.                           */
-/*  If the arm is falling "slow" then less speed should be applied to */
-/*  let the arm lower itself gracefully.                              */
-/*                                                                    */
-/*  The command should stop running when the arm is in a flat enough  */
-/*  state, specified by an encoder position close to 0                */
-/**********************************************************************/
-
-/* Since the logic to throw the exception uses "constants", it will report a Dead Code warning */
-/* We can use @SuppressWarnings to ignore certain warnings in java. */
 @SuppressWarnings("unused") 
 public class RaiseArmToIdle extends Command {
 
@@ -41,39 +19,68 @@ public class RaiseArmToIdle extends Command {
     private final sparkMaxSubsystem s_sparkmax;
     public static RobotContainer m_robotContainer;
     public double idleposition = -.56;
+    public double idlepositionmin = -.55;
+    public double idlepositionmax = -.5;
+    private  double _speed;
     private boolean _isFinished = false;
     encoder_velocity encoder = new encoder_velocity();
     double  avg_encoder_revs = encoder.avg_encoder_revs;
     double average_encoder_revs = avg_encoder_revs;
-     
+
     public RaiseArmToIdle(sparkMaxSubsystem sparkMax) {
-       
         s_sparkmax = sparkMax;
         addRequirements(s_sparkmax);
         _isFinished = false;
-
-    }
-
-    @Override
-    public void initialize() {
         
     }
 
     @Override
-    public void execute() {
-
-        if (average_encoder_revs > idleposition ) {
-            _isFinished = true;
-        } else {
-            _isFinished = false;
-        }
-
-        SmartDashboard.putBoolean("is finished", _isFinished);  
+    public void initialize() {
+        Robot.oi.armstate = ArmStates.IDLE;
     }
 
     @Override
+    public void execute() {
+        
+  
+        if(average_encoder_revs >= idleposition){
+            s_sparkmax.run(-.025);
+        } else if (avg_encoder_revs > idlepositionmax){
+            s_sparkmax.run(.001);
+        } else {
+            s_sparkmax.run(-.2);
+        }
+    
+        SmartDashboard.putBoolean("is finished", _isFinished);  
+    
+
+    if (average_encoder_revs<0 && average_encoder_revs>idleposition){
+        if(average_encoder_revs >= idleposition){
+            s_sparkmax.run(-.025);
+        } else if (avg_encoder_revs > idlepositionmax){
+            s_sparkmax.run(.001);
+        } else {
+            s_sparkmax.run(-.001); //TODO
+        }
+    }
+    
+    
+    if (average_encoder_revs>0){
+        if(average_encoder_revs >= idleposition){
+            s_sparkmax.run(-.025);
+        } else if (avg_encoder_revs > idlepositionmax){
+            s_sparkmax.run(.001);
+        } else {
+            s_sparkmax.run(-.001); //TODO
+        }
+    }
+
+
+    }
+    @Override
     public boolean isFinished(){
-        return Robot.encoder_data.avg_encoder_revs > idleposition;
+      //change
+        return Robot.oi.armstate == ArmStates.IDLE;
 
     }
 

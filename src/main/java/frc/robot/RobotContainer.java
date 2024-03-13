@@ -68,8 +68,8 @@ public class RobotContainer {
    */
   public void configureBindings() {
     /* A Button */
-    Robot.oi.A.onTrue(new SparkMaxCommand(s_sparkMax, -0.2)); // Raise the arm at 10% speed while A is held
-    Robot.oi.A.onFalse(new SparkMaxCommandStop(s_sparkMax));
+    Robot.oi.A.toggleOnTrue(new RaiseArmToIdle(s_sparkMax)); 
+    
 
     /* B Button */
     //Robot.oi.B.onTrue(new LowerArmCommandGroup(s_sparkMax)); //Smart lowering arm mecannsim
