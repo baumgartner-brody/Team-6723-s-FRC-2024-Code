@@ -54,7 +54,7 @@ public class LowerArm2 extends Command {
 
     /* If the average encoder position is between 0 and FLAT_ENOUGH_POSITION, then this command has done its job. */
     /* We can additionally add a maximum amount of time we want this command to take, but as of right now the timer does nothing */
-    private final double FLAT_ENOUGH_POSITION = 1.075;
+    private final double FLAT_ENOUGH_POSITION = 1.0;
     
     public LowerArm2(sparkMaxSubsystem sparkMax) {
         s_sparkmax = sparkMax;
@@ -122,8 +122,6 @@ public class LowerArm2 extends Command {
 
     @Override
     public boolean isFinished(){
-        double average_encoder_rev = (Math.abs(Robot.encoder_data.sparkMax5_rev) + Math.abs(Robot.encoder_data.sparkMax6_rev)) / 2.0;
-        SmartDashboard.putNumber("avg encoder revsLowerarm2: ", average_encoder_rev);
         return Robot.encoder_data.avg_encoder_revs >= FLAT_ENOUGH_POSITION;
 
     }
