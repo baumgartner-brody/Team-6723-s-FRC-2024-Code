@@ -16,7 +16,7 @@ public class encoder_velocity implements Runnable {
   public double sparkMax7_pos;
   public double sparkMax7_rev;
 
-  public double avg_encoder_revs; // The avg abs revs of 5 & 6 
+  public double avg_encoder_revs;
 
   public encoder_velocity() {
     this.reset();
