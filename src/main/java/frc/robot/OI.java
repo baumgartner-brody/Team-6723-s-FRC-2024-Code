@@ -16,8 +16,9 @@ public class OI {
     public JoystickButton RightBumper;
     public JoystickButton LeftBumper;
     public Joystick LeftTrigger;
+    public Joystick RightTrigger;
 
-    public enum ArmStates{
+   /*  public enum ArmStates{
         IDLE,
         SCORING,
         GROUND,
@@ -25,7 +26,7 @@ public class OI {
     }
 
     public ArmStates armstate;
-
+*/
     public OI() {
         xbox = new XboxController(0);
 
@@ -35,13 +36,13 @@ public class OI {
         B = new JoystickButton(xbox, XboxController.Button.kB.value);
         X = new JoystickButton(xbox, XboxController.Button.kX.value);
         Y = new JoystickButton(xbox, XboxController.Button.kY.value);
-   //     Menu = new JoystickButton(xbox, XboxController.Button.kStart.value);
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
 
         LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
         LeftTrigger = new Joystick(0);
 
-        armstate = ArmStates.AUTO;
+        xbox.getLeftTriggerAxis();
+       // armstate = ArmStates.AUTO;
     }
 
     public XboxController getXboxController() {

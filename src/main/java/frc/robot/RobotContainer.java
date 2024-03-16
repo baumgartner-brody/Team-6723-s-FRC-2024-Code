@@ -67,20 +67,28 @@ public class RobotContainer {
    * joysticks}.
    */
   public void configureBindings() {
+
+    //Backup Buttons incase the nessecary do not work
     /* A Button */
     Robot.oi.A.toggleOnTrue(new Score()); // Raises the arm to score
 
     /* B Button */
-    Robot.oi.B.toggleOnTrue(new LowerArmToGround()); //Toggle or onTrue?
+    Robot.oi.B.toggleOnTrue(new LowerArmToGround()); //Lowers the arm
 
+    /* Y Button */
+    Robot.oi.Y.toggleOnTrue(new Idle()); //Idles the arm 
+    
+
+    //Nessecary Buttons
     /* X Button */
     Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -.8)); // Run the intake at 80% speed while X is held
     Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3)); //Ends commands when this isn't held
-    
+
     /* Left Bumper (LB) */
-    Robot.oi.LeftBumper.toggleOnTrue(new Idle()); //Raises the arm from any point to idle point (about 50 degrees)
+    Robot.oi.LeftBumper.toggleOnTrue(new IdleToScoreCommandGroup()); //Raises the arm from any point to score, waits to score then goes back to idle
     
-    /*Right bumper doesnt work, but it would be good to have. Code needs to be written for the back buttons (LT and RT)
+    /*Right bumper*/
+    Robot.oi.RightBumper.toggleOnTrue(new LowerIntakeIdle()); //Lowers the arm from any point, waits to pick up note, then goes to idle
    
    
 

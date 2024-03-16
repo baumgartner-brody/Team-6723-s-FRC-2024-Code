@@ -1,7 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.sparkMaxSubsystem;
+import frc.robot.Robot;
+import frc.robot.commands.IntakeCommand;
+
+import frc.robot.commands.SparkMaxCommand;
+import frc.robot.commands.Autos.SuspendArmAndDriveB;
+import frc.robot.commands.Autos.SuspendArmAndScore;
+import frc.robot.commands.Wait;
+
 
 /* A SequentialCommandGroup is a chain of commands that executes in the order they were added to the group. */
 /* In its current state, this autonomous routine will drive forward for 2 seconds, then backwards for 2 seconds. */
@@ -11,16 +18,14 @@ import frc.robot.subsystems.sparkMaxSubsystem;
  *  a SequentialCommandGroup that adds a ParallelCommandGroup as a command in addCommands().
  *  https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/ParallelCommandGroup.html
  **/
-public class LowerArmCommandGroup extends SequentialCommandGroup {
+public class IdleToScoreCommandGroup extends SequentialCommandGroup {
     
-    /* The idea behind this command group is that LowerArm will bring the arm back to a position below 90, *
-    /* and then LowerArm2 will manage it from there. This should allow you to lower the arm from any position in auto or teleop. */
-    /* Adjust params accordingly. */
-    public LowerArmCommandGroup(sparkMaxSubsystem sparkMax) {
-        addCommands(
-            new LowerArm(sparkMax, 0.1, 1),
-            new LowerArm2(sparkMax)
-        );
+    public IdleToScoreCommandGroup() { 
+        addCommands(  
+        new Score(),
+        new Wait (3),
+        new Idle()
+         );
     }
 }
-   
+       

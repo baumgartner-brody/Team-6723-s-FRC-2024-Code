@@ -39,7 +39,7 @@ public class Score extends Command {
             s_sparkmax.run(-0.05); // The arm is past 90, just a small amount of force 
             System.out.println("Past 90");
         } else {
-            System.out.println("Rasing to 90");
+            System.out.println("Raising to 90");
             s_sparkmax.run(-0.2); // The arm should run at a decent speed before we hit 0 revs
         }
 
