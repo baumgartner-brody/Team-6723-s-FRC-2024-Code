@@ -17,7 +17,7 @@ public class RaiseArmToIdle extends Command {
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
 
     // Code should be refactored so references to subsystems are similar to the following
-    private final sparkMaxSubsystem s_sparkmax = Robot.sparkMaxSubsystem; 
+    private final sparkMaxSubsystem s_sparkmax = RobotContainer.s_sparkMax; 
 
     private final double IDLE_POSITION_LOWER_BOUND = -0.6;
     private final double IDLE_POSITION_UPPER_BOUND = -0.5;

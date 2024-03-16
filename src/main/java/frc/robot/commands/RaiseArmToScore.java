@@ -19,7 +19,7 @@ public class RaiseArmToScore extends Command {
     // Code should be refactored so references to subsystems are similar to the following
     private final sparkMaxSubsystem s_sparkmax = RobotContainer.s_sparkMax; 
 
-    private final double Ninety_Degrees = .15;
+    private final double NINETY_DEGREES = 0;
     
 
     public RaiseArmToScore() {}
@@ -35,9 +35,9 @@ public class RaiseArmToScore extends Command {
         // Reference to avg_encoder_revs in the encoder thread
         double avg_encoder_revs = Robot.encoder_data.avg_encoder_revs; 
         
-        if (avg_encoder_revs >= Ninety_Degrees) {
-            s_sparkmax.run(-0.005); // The arm is past 90, just a small amount of force
-            System.out.println("Past 90");
+        if (avg_encoder_revs >= NINETY_DEGREES) {
+            s_sparkmax.run(-0.05); // The arm is past 90, just a small amount of force 
+                System.out.println("Past 90");
         } else {
             System.out.println("Rasing to 90");
             s_sparkmax.run(-0.2); // The arm should run at a decent speed before we hit 0 revs
