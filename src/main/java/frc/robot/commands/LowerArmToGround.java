@@ -41,14 +41,11 @@ public class LowerArmToGround extends Command {
         } else if (avg_encoder_revs > IDLE_POSITION_UPPER_BOUND && avg_encoder_revs <NINETY_DEGREES) {
             s_sparkmax.run(0.1); // The arm is between idle and 90, run at a decent speed. This and the one below could be combined
         } else {
-            s_sparkmax.run(0.15); // The arm is above the idle range, so can lower it faster
+            s_sparkmax.run(0.15); // The arm is above the idle range, so can lower it faster (will have to test speed)
         }   
 
     }
 
-    /* The arm returns to idle from wherever, but once it's there, it  
-     * stays there until the driver needs it to do something else
-    */
     @Override
     public boolean isFinished(){
         double avg_encoder_revs = Robot.encoder_data.avg_encoder_revs; 
@@ -58,7 +55,7 @@ public class LowerArmToGround extends Command {
     @Override
     public void end(boolean interrupted) {
         s_sparkmax.stop();
-        System.out.println("LowerArmToGround 44 complete");
+        System.out.println("LowerArmToGround69 complete");
     }
 }
  

@@ -12,7 +12,7 @@ import frc.robot.subsystems.*;
  *  return to the idle position from anywhere and getting it to stay there. 
  */
 @SuppressWarnings("unused") 
-public class RaiseArmToScore extends Command {
+public class Score extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
 
@@ -22,7 +22,7 @@ public class RaiseArmToScore extends Command {
     private final double NINETY_DEGREES = 0;
     
 
-    public RaiseArmToScore() {}
+    public Score() {}
 
     @Override
     public void initialize() {
@@ -37,7 +37,7 @@ public class RaiseArmToScore extends Command {
         
         if (avg_encoder_revs >= NINETY_DEGREES) {
             s_sparkmax.run(-0.05); // The arm is past 90, just a small amount of force 
-                System.out.println("Past 90");
+            System.out.println("Past 90");
         } else {
             System.out.println("Rasing to 90");
             s_sparkmax.run(-0.2); // The arm should run at a decent speed before we hit 0 revs
@@ -50,14 +50,13 @@ public class RaiseArmToScore extends Command {
     */
     @Override
     public boolean isFinished(){
-        
         return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         s_sparkmax.stop();
-        System.out.println("Raise Arm to Scoring complete");
+        //this shouldn't be called on tbf
     }
 }
  

@@ -125,6 +125,9 @@ public class Robot extends TimedRobot {
 
     oi.otherOI();
 
+    
+
+    
     /* The old, ah-hoc way to use xbox buttons. We are trying to port them over to configureBindings() in RobotContainer */
     /*
     if (!oi.getXboxController().getAButton() && !oi.getXboxController().getBButton() && 

@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -8,15 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class OI {
     private XboxController xbox;
-
     public JoystickButton A;
     public JoystickButton B;
     public JoystickButton X;
-   // public JoystickButton Menu;
-    public JoystickButton Y; /* Adding Y button as a test button for the new arm lowering command */
+    public JoystickButton Y; 
     public JoystickButton RightBumper;
-
-    public JoystickButton LeftBumper; // You can remap this. But this is the reverse raise command in case the arm goes too far
+    public JoystickButton LeftBumper;
+    public Joystick LeftTrigger;
 
     public enum ArmStates{
         IDLE,
@@ -40,6 +39,7 @@ public class OI {
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
 
         LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
+        LeftTrigger = new Joystick(0);
 
         armstate = ArmStates.AUTO;
     }

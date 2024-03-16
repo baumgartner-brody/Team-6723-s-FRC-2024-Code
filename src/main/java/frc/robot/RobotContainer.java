@@ -68,24 +68,25 @@ public class RobotContainer {
    */
   public void configureBindings() {
     /* A Button */
-    Robot.oi.LeftBumper.toggleOnTrue(new RaiseArmToIdle()); 
-    Robot.oi.A.toggleOnTrue(new RaiseArmToScore());
-    
+    Robot.oi.A.toggleOnTrue(new Score()); // Raises the arm to score
 
     /* B Button */
-    //Robot.oi.B.onTrue(new LowerArmCommandGroup(s_sparkMax)); //Smart lowering arm mecannsim
-    //Robot.oi.B.onFalse(new SparkMaxCommandStop(s_sparkMax));
-    Robot.oi.B.onTrue(new SparkMaxCommand(s_sparkMax, 0.001));
+    Robot.oi.B.toggleOnTrue(new LowerArmToGround()); //Toggle or onTrue?
 
     /* X Button */
-    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -.8)); // Run the intake at 50% speed while X is held
-    Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3));
+    Robot.oi.X.whileTrue(new IntakeCommand(s_sparkMax3, -.8)); // Run the intake at 80% speed while X is held
+    Robot.oi.X.onFalse(new IntakeCommandStop(s_sparkMax3)); //Ends commands when this isn't held
     
-    Robot.oi.Y.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025));  //Suspends the arm, so it doesn't go up or down
+    /* Left Bumper (LB) */
+    Robot.oi.LeftBumper.toggleOnTrue(new Idle()); //Raises the arm from any point to idle point (about 50 degrees)
+    
+    /*Right bumper doesnt work, but it would be good to have. Code needs to be written for the back buttons (LT and RT)
+   
+   
 
     
-
-    /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
+    
+  
     
     
     

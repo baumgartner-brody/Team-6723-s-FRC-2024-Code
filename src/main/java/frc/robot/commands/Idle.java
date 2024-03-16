@@ -12,7 +12,7 @@ import frc.robot.subsystems.*;
  *  return to the idle position from anywhere and getting it to stay there. 
  */
 @SuppressWarnings("unused") 
-public class RaiseArmToIdle extends Command {
+public class Idle extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
 
@@ -22,7 +22,7 @@ public class RaiseArmToIdle extends Command {
     private final double IDLE_POSITION_LOWER_BOUND = -0.6;
     private final double IDLE_POSITION_UPPER_BOUND = -0.5;
 
-    public RaiseArmToIdle() {}
+    public Idle() {}
 
     @Override
     public void initialize() {}
@@ -46,6 +46,7 @@ public class RaiseArmToIdle extends Command {
         }
 
     }
+    
 
     /* The arm returns to idle from wherever, but once it's there, it  
      * stays there until the driver needs it to do something else
