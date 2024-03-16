@@ -12,20 +12,22 @@ import frc.robot.subsystems.*;
  *  return to the idle position from anywhere and getting it to stay there. 
  */
 @SuppressWarnings("unused") 
-public class RaiseArmToIdle extends Command {
+public class RaiseArmToScore extends Command {
 
     /* A reference to the Spark Max subsystem that controls the arm spark maxes */
 
     // Code should be refactored so references to subsystems are similar to the following
     private final sparkMaxSubsystem s_sparkmax = RobotContainer.s_sparkMax; 
 
-    private final double IDLE_POSITION_LOWER_BOUND = -0.6;
-    private final double IDLE_POSITION_UPPER_BOUND = -0.5;
+    private final double Ninety_Degrees = .15;
+    
 
-    public RaiseArmToIdle() {}
+    public RaiseArmToScore() {}
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        System.out.println("Initialize Raise Arm To Score");
+    }
 
     @Override
     public void execute() {
@@ -33,16 +35,12 @@ public class RaiseArmToIdle extends Command {
         // Reference to avg_encoder_revs in the encoder thread
         double avg_encoder_revs = Robot.encoder_data.avg_encoder_revs; 
         
-        if (avg_encoder_revs >= IDLE_POSITION_LOWER_BOUND && avg_encoder_revs <= IDLE_POSITION_UPPER_BOUND) {
-            s_sparkmax.run(-0.025); // The arm is within the idle range, so all we need to do is suspend it
-        } else if (avg_encoder_revs >= -0.65 && avg_encoder_revs <= IDLE_POSITION_LOWER_BOUND) {
-            s_sparkmax.run(-0.1); // The arm is near the idle position but not in it, so we should raise the arm a bit slower
-        } else if (avg_encoder_revs < -0.65) {
-            s_sparkmax.run(-0.25); // The arm is "far" below the idle range, so we should raise it as fast as we're comfortable
-        } else if (avg_encoder_revs > IDLE_POSITION_UPPER_BOUND && avg_encoder_revs <= -0.45) {
-            s_sparkmax.run(-0.001); // The arm is slightly above the idle range, so we can let gravity lower it
+        if (avg_encoder_revs >= Ninety_Degrees) {
+            s_sparkmax.run(-0.005); // The arm is past 90, just a small amount of force
+            System.out.println("Past 90");
         } else {
-            s_sparkmax.run(0.1); // The arm is above the idle range, so we need to lower it
+            System.out.println("Rasing to 90");
+            s_sparkmax.run(-0.2); // The arm should run at a decent speed before we hit 0 revs
         }
 
     }
@@ -52,13 +50,14 @@ public class RaiseArmToIdle extends Command {
     */
     @Override
     public boolean isFinished(){
+        
         return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         s_sparkmax.stop();
-        System.out.println("Idle command interrupted by another command");
+        System.out.println("Raise Arm to Scoring complete");
     }
 }
  

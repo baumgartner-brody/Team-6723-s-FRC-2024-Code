@@ -18,6 +18,15 @@ public class OI {
 
     public JoystickButton LeftBumper; // You can remap this. But this is the reverse raise command in case the arm goes too far
 
+    public enum ArmStates{
+        IDLE,
+        SCORING,
+        GROUND,
+        AUTO
+    }
+
+    public ArmStates armstate;
+
     public OI() {
         xbox = new XboxController(0);
 
@@ -31,6 +40,8 @@ public class OI {
         RightBumper = new JoystickButton(xbox, XboxController.Button.kRightBumper.value);
 
         LeftBumper = new JoystickButton(xbox, XboxController.Button.kLeftBumper.value);
+
+        armstate = ArmStates.AUTO;
     }
 
     public XboxController getXboxController() {
@@ -48,5 +59,6 @@ public class OI {
 
         // 2/11/2024 - put A button status on smartDashboard (debugging)
         SmartDashboard.putBoolean("A is pressed: ", xbox.getAButton());
+        
     }
 }

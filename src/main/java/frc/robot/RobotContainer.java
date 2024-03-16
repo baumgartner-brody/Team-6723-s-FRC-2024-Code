@@ -68,7 +68,8 @@ public class RobotContainer {
    */
   public void configureBindings() {
     /* A Button */
-    Robot.oi.A.toggleOnTrue(new RaiseArmToIdle(s_sparkMax)); 
+    Robot.oi.LeftBumper.toggleOnTrue(new RaiseArmToIdle()); 
+    Robot.oi.A.toggleOnTrue(new RaiseArmToScore());
     
 
     /* B Button */
@@ -82,8 +83,7 @@ public class RobotContainer {
     
     Robot.oi.Y.toggleOnTrue(new SparkMaxCommand(s_sparkMax, -0.025));  //Suspends the arm, so it doesn't go up or down
 
-    Robot.oi.LeftBumper.onTrue(new SparkMaxCommand(s_sparkMax, 0.25));
-    Robot.oi.LeftBumper.onFalse(new SparkMaxCommandStop(s_sparkMax));
+    
 
     /* Test a smarter arm lowering command that the driver presses a button and then the code does the work */
     
