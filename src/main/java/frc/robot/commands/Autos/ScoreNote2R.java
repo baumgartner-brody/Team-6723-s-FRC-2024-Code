@@ -3,7 +3,7 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.IntakeCommand;
-
+import frc.robot.commands.Score;
 import frc.robot.commands.SparkMaxCommand;
 
 /* A SequentialCommandGroup is a chain of commands that executes in the order they were added to the group. */
@@ -19,14 +19,14 @@ public class ScoreNote2R extends SequentialCommandGroup {
     public ScoreNote2R() {
         addCommands(
             new SuspendArmAndDriveR(),
-            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -.2, .5),
+            new Score(),
             new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, -0.5, 1.0),
             new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, .001),
 
             new DriveAuto(-.15, -.3, 0, 3),
             new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, 0.5, 1.0),
             new DriveAuto(.15, .3, 0, 3),
-            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.2, .5), // 
+            new Score(), // 
             new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, -0.5, 1.0)
            // new LowerArmCommandGroup(Robot.m_robotContainer.s_sparkMax)
         );
