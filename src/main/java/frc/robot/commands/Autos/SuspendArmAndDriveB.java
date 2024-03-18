@@ -8,8 +8,8 @@ public class SuspendArmAndDriveB extends ParallelCommandGroup {
 
     public SuspendArmAndDriveB() {
         addCommands(
-            new DriveAuto(.2, .3, 0, 2),
-            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.02, 2.5) // Keep the arm up for 2  second
+            new DriveAuto(.15, .3, 0, 1.5),
+            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.025, 3) // Keep the arm up for 3 second
          
         );
     }

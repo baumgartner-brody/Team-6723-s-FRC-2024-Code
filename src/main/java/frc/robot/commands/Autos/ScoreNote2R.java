@@ -1,14 +1,10 @@
-package frc.robot.commands;
+package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.IntakeCommand;
 
 import frc.robot.commands.SparkMaxCommand;
-import frc.robot.commands.Autos.SuspendArmAndDriveB;
-
-import frc.robot.commands.Wait;
-
 
 /* A SequentialCommandGroup is a chain of commands that executes in the order they were added to the group. */
 /* In its current state, this autonomous routine will drive forward for 2 seconds, then backwards for 2 seconds. */
@@ -18,14 +14,22 @@ import frc.robot.commands.Wait;
  *  a SequentialCommandGroup that adds a ParallelCommandGroup as a command in addCommands().
  *  https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/ParallelCommandGroup.html
  **/
-public class LowerIntakeIdle extends SequentialCommandGroup {
+public class ScoreNote2R extends SequentialCommandGroup {
     
-    public LowerIntakeIdle() { 
-        addCommands(  
-        new LowerArmToGround(),
-        new Wait(4),
-        new Idle()
+    public ScoreNote2R() {
+        addCommands(
+            new SuspendArmAndDriveR(),
+            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -.2, .5),
+            new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, -0.5, 1.0),
+            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, .001),
+
+            new DriveAuto(-.15, -.3, 0, 3),
+            new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, 0.5, 1.0),
+            new DriveAuto(.15, .3, 0, 3),
+            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -0.2, .5), // 
+            new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, -0.5, 1.0)
+           // new LowerArmCommandGroup(Robot.m_robotContainer.s_sparkMax)
         );
     }
 }
-       
+        

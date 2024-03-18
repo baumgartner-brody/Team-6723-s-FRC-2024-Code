@@ -3,7 +3,7 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.IntakeCommand;
-
+import frc.robot.commands.LowerArmToGround;
 import frc.robot.commands.SparkMaxCommand;
 
 
@@ -19,10 +19,11 @@ public class ScoreNote1Blue extends SequentialCommandGroup {
     
     public ScoreNote1Blue() { 
         addCommands(  
-        new SuspendArmAndDriveB(),
-        new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -.2, .5),
-        new SuspendArmAndScore(),
-        new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, .001)
+            new SuspendArmAndDriveB(),
+            new SparkMaxCommand(Robot.m_robotContainer.s_sparkMax, -.2, .5),
+            new IntakeCommand(Robot.m_robotContainer.s_sparkMax3, -0.5, 1.0),
+            new LowerArmToGround()
+
          );
     }
 }

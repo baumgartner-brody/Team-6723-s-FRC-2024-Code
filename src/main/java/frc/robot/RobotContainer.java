@@ -50,7 +50,8 @@ public class RobotContainer {
     autoChooser.addOption("DriveForward then back", new AutoCommandGroup());
     autoChooser.addOption("Score1NoteRed", new ScoreNote1Red());
     autoChooser.addOption("Score1NoteBlue", new ScoreNote1Blue());
-    autoChooser.addOption("Score2Note", new ScoreNote2());
+    autoChooser.addOption("Score2NoteBlue", new ScoreNote2B());
+    autoChooser.addOption("Score2NoteRed", new ScoreNote2R());
     autoChooser.setDefaultOption("f*ckedauto", new newauto());
 
     /* Put the autoChooser on the SmartDashboard so it can be interacted with and seen */

@@ -6,7 +6,7 @@ import frc.robot.commands.IntakeCommand;
 
 import frc.robot.commands.SparkMaxCommand;
 import frc.robot.commands.Autos.SuspendArmAndDriveB;
-import frc.robot.commands.Autos.SuspendArmAndScore;
+
 import frc.robot.commands.Wait;
 
 
