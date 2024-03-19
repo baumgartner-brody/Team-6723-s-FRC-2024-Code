@@ -20,6 +20,7 @@ public class Score extends Command {
     private final sparkMaxSubsystem s_sparkmax = RobotContainer.s_sparkMax; 
 
     private final double NINETY_DEGREES = 0;
+    private final double Scoring = .2;
     
 
     public Score() {}
@@ -50,7 +51,8 @@ public class Score extends Command {
     */
     @Override
     public boolean isFinished(){
-        return false;
+        double avg_encoder_revs = Robot.encoder_data.avg_encoder_revs; 
+        return avg_encoder_revs >= .2;
     }
 
     @Override

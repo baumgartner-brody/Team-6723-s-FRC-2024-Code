@@ -19,7 +19,7 @@ public class LowerArmToGround extends Command {
     // Code should be refactored so references to subsystems are similar to the following
     private final sparkMaxSubsystem s_sparkmax = RobotContainer.s_sparkMax; 
 
-    private final double LOW_ENOUGH = -1;
+    private final double LOW_ENOUGH = -1.1;
     private final double NINETY_DEGREES = 0;
     private final double IDLE_POSITION_LOWER_BOUND = -0.6;
     private final double IDLE_POSITION_UPPER_BOUND = -0.5;

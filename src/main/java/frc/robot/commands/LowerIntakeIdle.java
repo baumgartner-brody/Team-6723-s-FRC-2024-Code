@@ -23,7 +23,7 @@ public class LowerIntakeIdle extends SequentialCommandGroup {
     public LowerIntakeIdle() { 
         addCommands(  
         new LowerArmToGround(),
-        new Wait(4),
+        new Wait(10),
         new Idle()
         );
     }
